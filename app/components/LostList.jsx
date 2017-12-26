@@ -1,6 +1,7 @@
 var React = require('react');
 var LostItem=require('LostItem');
 var ShowImageModal = require('ShowImageModal');
+import LostProductsTable from 'LostProductsTable';
 
 var LostList= React.createClass({
     
@@ -69,6 +70,7 @@ render: function(){
                                       {generateLostList()}                                          
                                  </tbody>                   
                  </table>
+            <LostProductsTable/>
         </div>
     );
 }

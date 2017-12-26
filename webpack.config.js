@@ -15,7 +15,8 @@ module.exports = {
       Footer: 'app/components/Footer.jsx',
       LostList: 'app/components/LostList.jsx',
       LostItem: 'app/components/LostItem.jsx',
-      LoadingComponent: 'app/components/LoadingComponent.jsx'
+      LoadingComponent: 'app/components/LoadingComponent.jsx',
+      LostProductsTable: 'app/components/LostProductsTable.jsx'
     },
     extensions: ['', '.js', '.jsx']
   },
