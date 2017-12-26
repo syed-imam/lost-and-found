@@ -11,20 +11,19 @@ getInitialState: function(){
 
 render: function(){
     
-    var{name, description, lost_location, picture, reward_price, toggle, owner_name, owner_phone}=this.props;
+    var{name, description, lost_location, image, reward_price, toggle, owner_name, owner_phone}=this.props;
     
-    var aws_picture="https://s3.amazonaws.com/lost-and-found-bucket/"+picture;
+    var aws_picture="https://s3.amazonaws.com/lost-and-found-bucket/"+image;
     
     return(
-        <a href="" onClick={(event)=>toggle(aws_picture, name, reward_price, description, lost_location, owner_name, owner_phone, event)}>
             <tr>
-                <td><img src={aws_picture}/></td>
+                <td><a href="" onClick={(event)=>toggle(aws_picture, name, reward_price, description, lost_location, owner_name, owner_phone, event)}><img src={aws_picture}/></a></td>
                 <td>{name}</td>
                 <td>{description}</td>
                 <td>{lost_location}</td>
                 <td>${reward_price}</td>
             </tr>
-        </a>);
+        );
 }
 });
 module.exports = LostItem;
