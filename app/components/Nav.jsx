@@ -16,32 +16,22 @@ var Nav = React.createClass({
           </div>
           <div className="navbar-collapse collapse" id="navbar-main">
             <ul className="nav navbar-nav">
-             
-               
               <li>
                    <Link to="/"> View Loss Reports</Link>
               </li>
               <li>
                  <Link to="/lost">Report Loss</Link>        
               </li>
-        
               <li>
                 <Link to="/found">Report Found</Link>    
               </li>
-              
             </ul>
             <ul className="nav navbar-nav navbar-right">
-              <li><a href="http://syedadilimam.com/" target="_blank">Donation to Adil Imam</a></li>
+              <li><a href="http://syedadilimam.com/" target="_blank">Author</a></li>
             </ul>
           </div>
-        
-        
         </div>
-          
-           
     </div>
-
-          
     );
   }
 });

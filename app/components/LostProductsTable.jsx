@@ -1,38 +1,195 @@
 import React from "react";
 import {BootstrapTable, TableHeaderColumn} from "react-bootstrap-table";
+import LostItem1 from "LostItem1";
+const locations = [ 'Library', 'Cafeteria', 'Parking Lot', 'NAB', 'Lab', 'Bursar Office', 'Registrar Office'];
+import ShowImageModal from 'ShowImageModal';
 
+const createPriceEditor = (onUpdate, props) => (<PriceEditor onUpdate={ onUpdate } {...props}/>);
 
-class Welcome extends React.Component {
-    // products will be presented by react-bootstrap-table
+class LostProductsTable extends React.Component {
+      constructor(props) {
+        super(props);
+        var self=this;
 
+          this.state = {
+            isOpen: false,
+            itemInfo: {}
+        };
+    }
 
-// It's a data format example.
     priceFormatter(cell, row){
-        return '<i class="glyphicon glyphicon-usd"></i> ' + cell;
+        return `<div> $${cell} </div>`;
+    }
+
+    toggleModal(img, name, price, desc, lost_location, owner_name, owner_phone, evt){
+        evt.preventDefault();
+        console.log(this);
+        this.setState({isOpen: true,
+            itemInfo:{
+                image:img,
+                name:name,
+                reward_price:price,
+                description:desc,
+                lost_location:lost_location,
+                owner_name:owner_name,
+                owner_phone:owner_phone}
+        });
+}
+
+    closeModal(evt){
+         evt.preventDefault();
+         this.setState({isOpen: !this.state.isOpen, itemInfo:{}
+         });
+    }
+
+    imageFormatter(cell, row) {
+        return(<LostItem1 {...row} toggle={this.toggleModal.bind(this)}> </LostItem1>);
     }
 
     render() {
 
-        var products = [{
-            id: 1,
-            name: "Item name 1",
-            price: 100
-        },{
-            id: 2,
-            name: "Item name 2",
-            price: 100
-        }];
+        var products= [{
+            id:1,
+            image:"1499053206521_watch.jpg",
+            name:"Car",
+            reward_price:56,
+            description:"Big black car",
+            lost_location:"Unknown",
+            owner_name:"Adil Imam",
+            owner_phone:"516-435-3556"}
+            ,{
+                id:2,
+                image:"1499053206521_watch.jpg",
+                name:"Car",
+                reward_price:56,
+                description:"Big black car",
+                lost_location:"Unknown",
+                owner_name:"Adil Imam",
+                owner_phone:"516-435-3556"},
+            {
+                id:3,
+                image:"1499053206521_watch.jpg",
+                name:"Car",
+                reward_price:56,
+                description:"Big black car",
+                lost_location:"Unknown",
+                owner_name:"Adil Imam",
+                owner_phone:"516-435-3556"},
+            {
+                id:4,
+                image:"1499053206521_watch.jpg",
+                name:"Car",
+                reward_price:56,
+                description:"Big black car",
+                lost_location:"Unknown",
+                owner_name:"Adil Imam",
+                owner_phone:"516-435-3556"},
+            {
+                id:5,
+                image:"1499053206521_watch.jpg",
+                name:"Car",
+                reward_price:56,
+                description:"Big black car",
+                lost_location:"Unknown",
+                owner_name:"Adil Imam",
+                owner_phone:"516-435-3556"},
+            {
+                id:6,
+                image:"1499053206521_watch.jpg",
+                name:"Car",
+                reward_price:56,
+                description:"Big black car",
+                lost_location:"Unknown",
+                owner_name:"Adil Imam",
+                owner_phone:"516-435-3556"},
+            {
+                id:7,
+                image:"1499053206521_watch.jpg",
+                name:"Car",
+                reward_price:56,
+                description:"Big black car",
+                lost_location:"Unknown",
+                owner_name:"Adil Imam",
+                owner_phone:"516-435-3556"},
+            {
+                id:8,
+                image:"1499053206521_watch.jpg",
+                name:"Car",
+                reward_price:56,
+                description:"Big black car",
+                lost_location:"Unknown",
+                owner_name:"Adil Imam",
+                owner_phone:"516-435-3556"},
+            {
+                id:9,
+                image:"1499053206521_watch.jpg",
+                name:"Car",
+                reward_price:56,
+                description:"Big black car",
+                lost_location:"Unknown",
+                owner_name:"Adil Imam",
+                owner_phone:"516-435-3556"},
+            {
+                id:10,
+                image:"1499053206521_watch.jpg",
+                name:"Car",
+                reward_price:56,
+                description:"Big black car",
+                lost_location:"Unknown",
+                owner_name:"Adil Imam",
+                owner_phone:"516-435-3556"},
+            {
+                id:11,
+                image:"1499053206521_watch.jpg",
+                name:"Car",
+                reward_price:56,
+                description:"Big black car",
+                lost_location:"Unknown",
+                owner_name:"Adil Imam",
+                owner_phone:"516-435-3556"}
+        ];
 
         return(
-           <BootstrapTable data={products} striped={true} hover={true}>
-                   <TableHeaderColumn dataField="id" isKey={true} dataAlign="center" dataSort={true}>Item Picture</TableHeaderColumn>
-                   <TableHeaderColumn dataField="name" dataSort={true}>Item Name</TableHeaderColumn>
-                   <TableHeaderColumn dataField="price" dataFormat={this.priceFormatter}>Item Description</TableHeaderColumn>
-                   <TableHeaderColumn dataField="price" dataFormat={this.priceFormatter}>Loss Location</TableHeaderColumn>
-                   <TableHeaderColumn dataField="price" dataFormat={this.priceFormatter}>Reward Price</TableHeaderColumn>
-           </BootstrapTable>);
-    }
+           <div>
+               <ShowImageModal show={this.state.isOpen} close={this.closeModal.bind(this)} attributes={this.state.itemInfo}/>
+               <BootstrapTable data={products} striped={true} hover={true} cellEdit={cellEditProp}  pagination={true}>
+                   <TableHeaderColumn dataField="image" dataFormat={this.imageFormatter.bind(this)}  dataAlign="center"  isKey={true}>   Item Picture </TableHeaderColumn>
+                   <TableHeaderColumn dataField="name" dataAlign="center" dataSort={ true }> Item Name </TableHeaderColumn>
+                   <TableHeaderColumn dataField="reward_price" dataAlign="center" dataFormat={this.priceFormatter} dataSort={ true }> Reward Price </TableHeaderColumn>
+                   <TableHeaderColumn dataField="description" dataAlign="center"> Item Description </TableHeaderColumn>
+                   <TableHeaderColumn dataField="lost_location" dataAlign="center"  customEditor={ { getElement: createPriceEditor, customEditorParameters: { currencies: location } } }> Lost Location </TableHeaderColumn>
+                   <TableHeaderColumn dataField="owner_name" dataAlign="center"> Owner </TableHeaderColumn>
+                   <TableHeaderColumn dataField="owner_phone" dataAlign="center"> Phone </TableHeaderColumn>
+           </BootstrapTable>
+           </div>
+        );
 
+    }
 }
 
-export default Welcome;
+const cellEditProp = {
+    mode: 'click'
+};
+
+
+class PriceEditor extends React.Component {
+    constructor(props) {
+        super(props);
+        this.updateData = this.updateData.bind(this);
+        this.state = { amount: props.defaultValue.amount, location: props.defaultValue.location };
+    }
+    updateData() {
+        this.props.onUpdate({ amount: this.state.amount, location: this.state.location });
+    }
+    render() {
+        return (
+            <div>
+                <select value={ this.state.location } onKeyDown={ this.props.onKeyDown } onChange={ (ev) => { this.setState({ location: ev.currentTarget.value }); } } >
+                  { locations.map(location => (<option key={ location } value={ location }>{ location }</option>)) }
+                </select>
+                <button className='btn-default  btn-xs textarea-save-btn' onClick={this.updateData}> Save </button>
+           </div>
+        );
+    }
+}
+export default LostProductsTable;

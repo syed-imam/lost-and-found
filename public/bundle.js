@@ -56,7 +56,7 @@
 	    hashHistory = _require.hashHistory;
 
 	var Main = __webpack_require__(222);
-	var About = __webpack_require__(494);
+	var About = __webpack_require__(495);
 
 	ReactDOM.render(React.createElement(
 	  Router,
@@ -25431,8 +25431,8 @@
 	var ShowImageModal = __webpack_require__(241);
 	var Footer = __webpack_require__(401);
 	var LostList = __webpack_require__(402);
-	var Nav = __webpack_require__(467);
-	var axios = __webpack_require__(468);
+	var Nav = __webpack_require__(468);
+	var axios = __webpack_require__(469);
 	var lostReports = [];
 	var listItems;
 
@@ -35614,7 +35614,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var React = __webpack_require__(1);
-	var LostItem = __webpack_require__(466);
+	var LostItem = __webpack_require__(467);
 	var ShowImageModal = __webpack_require__(241);
 
 
@@ -35734,11 +35734,21 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
 	var _reactBootstrapTable = __webpack_require__(404);
+
+	var _LostItem = __webpack_require__(466);
+
+	var _LostItem2 = _interopRequireDefault(_LostItem);
+
+	var _ShowImageModal = __webpack_require__(241);
+
+	var _ShowImageModal2 = _interopRequireDefault(_ShowImageModal);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35748,24 +35758,66 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Welcome = function (_React$Component) {
-	    _inherits(Welcome, _React$Component);
+	var locations = ['Library', 'Cafeteria', 'Parking Lot', 'NAB', 'Lab', 'Bursar Office', 'Registrar Office'];
 
-	    function Welcome() {
-	        _classCallCheck(this, Welcome);
 
-	        return _possibleConstructorReturn(this, (Welcome.__proto__ || Object.getPrototypeOf(Welcome)).apply(this, arguments));
+	var createPriceEditor = function createPriceEditor(onUpdate, props) {
+	    return _react2.default.createElement(PriceEditor, _extends({ onUpdate: onUpdate }, props));
+	};
+
+	var LostProductsTable = function (_React$Component) {
+	    _inherits(LostProductsTable, _React$Component);
+
+	    function LostProductsTable(props) {
+	        _classCallCheck(this, LostProductsTable);
+
+	        var _this = _possibleConstructorReturn(this, (LostProductsTable.__proto__ || Object.getPrototypeOf(LostProductsTable)).call(this, props));
+
+	        var self = _this;
+
+	        _this.state = {
+	            isOpen: false,
+	            itemInfo: {}
+	        };
+	        return _this;
 	    }
 
-	    _createClass(Welcome, [{
+	    _createClass(LostProductsTable, [{
 	        key: "priceFormatter",
-
-	        // products will be presented by react-bootstrap-table
-
-
-	        // It's a data format example.
 	        value: function priceFormatter(cell, row) {
-	            return '<i class="glyphicon glyphicon-usd"></i> ' + cell;
+	            return "<div> $" + cell + " </div>";
+	        }
+	    }, {
+	        key: "toggleModal",
+	        value: function toggleModal(img, name, price, desc, lost_location, owner_name, owner_phone, evt) {
+	            evt.preventDefault();
+	            console.log(this);
+	            this.setState({ isOpen: true,
+	                itemInfo: {
+	                    image: img,
+	                    name: name,
+	                    reward_price: price,
+	                    description: desc,
+	                    lost_location: lost_location,
+	                    owner_name: owner_name,
+	                    owner_phone: owner_phone }
+	            });
+	        }
+	    }, {
+	        key: "closeModal",
+	        value: function closeModal(evt) {
+	            evt.preventDefault();
+	            this.setState({ isOpen: !this.state.isOpen, itemInfo: {}
+	            });
+	        }
+	    }, {
+	        key: "imageFormatter",
+	        value: function imageFormatter(cell, row) {
+	            return _react2.default.createElement(
+	                _LostItem2.default,
+	                _extends({}, row, { toggle: this.toggleModal.bind(this) }),
+	                " "
+	            );
 	        }
 	    }, {
 	        key: "render",
@@ -35773,50 +35825,200 @@
 
 	            var products = [{
 	                id: 1,
-	                name: "Item name 1",
-	                price: 100
-	            }, {
+	                image: "1499053206521_watch.jpg",
+	                name: "Car",
+	                reward_price: 56,
+	                description: "Big black car",
+	                lost_location: "Unknown",
+	                owner_name: "Adil Imam",
+	                owner_phone: "516-435-3556" }, {
 	                id: 2,
-	                name: "Item name 2",
-	                price: 100
-	            }];
+	                image: "1499053206521_watch.jpg",
+	                name: "Car",
+	                reward_price: 56,
+	                description: "Big black car",
+	                lost_location: "Unknown",
+	                owner_name: "Adil Imam",
+	                owner_phone: "516-435-3556" }, {
+	                id: 3,
+	                image: "1499053206521_watch.jpg",
+	                name: "Car",
+	                reward_price: 56,
+	                description: "Big black car",
+	                lost_location: "Unknown",
+	                owner_name: "Adil Imam",
+	                owner_phone: "516-435-3556" }, {
+	                id: 4,
+	                image: "1499053206521_watch.jpg",
+	                name: "Car",
+	                reward_price: 56,
+	                description: "Big black car",
+	                lost_location: "Unknown",
+	                owner_name: "Adil Imam",
+	                owner_phone: "516-435-3556" }, {
+	                id: 5,
+	                image: "1499053206521_watch.jpg",
+	                name: "Car",
+	                reward_price: 56,
+	                description: "Big black car",
+	                lost_location: "Unknown",
+	                owner_name: "Adil Imam",
+	                owner_phone: "516-435-3556" }, {
+	                id: 6,
+	                image: "1499053206521_watch.jpg",
+	                name: "Car",
+	                reward_price: 56,
+	                description: "Big black car",
+	                lost_location: "Unknown",
+	                owner_name: "Adil Imam",
+	                owner_phone: "516-435-3556" }, {
+	                id: 7,
+	                image: "1499053206521_watch.jpg",
+	                name: "Car",
+	                reward_price: 56,
+	                description: "Big black car",
+	                lost_location: "Unknown",
+	                owner_name: "Adil Imam",
+	                owner_phone: "516-435-3556" }, {
+	                id: 8,
+	                image: "1499053206521_watch.jpg",
+	                name: "Car",
+	                reward_price: 56,
+	                description: "Big black car",
+	                lost_location: "Unknown",
+	                owner_name: "Adil Imam",
+	                owner_phone: "516-435-3556" }, {
+	                id: 9,
+	                image: "1499053206521_watch.jpg",
+	                name: "Car",
+	                reward_price: 56,
+	                description: "Big black car",
+	                lost_location: "Unknown",
+	                owner_name: "Adil Imam",
+	                owner_phone: "516-435-3556" }, {
+	                id: 10,
+	                image: "1499053206521_watch.jpg",
+	                name: "Car",
+	                reward_price: 56,
+	                description: "Big black car",
+	                lost_location: "Unknown",
+	                owner_name: "Adil Imam",
+	                owner_phone: "516-435-3556" }, {
+	                id: 11,
+	                image: "1499053206521_watch.jpg",
+	                name: "Car",
+	                reward_price: 56,
+	                description: "Big black car",
+	                lost_location: "Unknown",
+	                owner_name: "Adil Imam",
+	                owner_phone: "516-435-3556" }];
 
 	            return _react2.default.createElement(
-	                _reactBootstrapTable.BootstrapTable,
-	                { data: products, striped: true, hover: true },
+	                "div",
+	                null,
+	                _react2.default.createElement(_ShowImageModal2.default, { show: this.state.isOpen, close: this.closeModal.bind(this), attributes: this.state.itemInfo }),
 	                _react2.default.createElement(
-	                    _reactBootstrapTable.TableHeaderColumn,
-	                    { dataField: "id", isKey: true, dataAlign: "center", dataSort: true },
-	                    "Item Picture"
-	                ),
-	                _react2.default.createElement(
-	                    _reactBootstrapTable.TableHeaderColumn,
-	                    { dataField: "name", dataSort: true },
-	                    "Item Name"
-	                ),
-	                _react2.default.createElement(
-	                    _reactBootstrapTable.TableHeaderColumn,
-	                    { dataField: "price", dataFormat: this.priceFormatter },
-	                    "Item Description"
-	                ),
-	                _react2.default.createElement(
-	                    _reactBootstrapTable.TableHeaderColumn,
-	                    { dataField: "price", dataFormat: this.priceFormatter },
-	                    "Loss Location"
-	                ),
-	                _react2.default.createElement(
-	                    _reactBootstrapTable.TableHeaderColumn,
-	                    { dataField: "price", dataFormat: this.priceFormatter },
-	                    "Reward Price"
+	                    _reactBootstrapTable.BootstrapTable,
+	                    { data: products, striped: true, hover: true, cellEdit: cellEditProp, pagination: true },
+	                    _react2.default.createElement(
+	                        _reactBootstrapTable.TableHeaderColumn,
+	                        { dataField: "image", dataFormat: this.imageFormatter.bind(this), dataAlign: "center", isKey: true },
+	                        "   Item Picture "
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrapTable.TableHeaderColumn,
+	                        { dataField: "name", dataAlign: "center", dataSort: true },
+	                        " Item Name "
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrapTable.TableHeaderColumn,
+	                        { dataField: "reward_price", dataAlign: "center", dataFormat: this.priceFormatter, dataSort: true },
+	                        " Reward Price "
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrapTable.TableHeaderColumn,
+	                        { dataField: "description", dataAlign: "center" },
+	                        " Item Description "
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrapTable.TableHeaderColumn,
+	                        { dataField: "lost_location", dataAlign: "center", customEditor: { getElement: createPriceEditor, customEditorParameters: { currencies: location } } },
+	                        " Lost Location "
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrapTable.TableHeaderColumn,
+	                        { dataField: "owner_name", dataAlign: "center" },
+	                        " Owner "
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrapTable.TableHeaderColumn,
+	                        { dataField: "owner_phone", dataAlign: "center" },
+	                        " Phone "
+	                    )
 	                )
 	            );
 	        }
 	    }]);
 
-	    return Welcome;
+	    return LostProductsTable;
 	}(_react2.default.Component);
 
-	exports.default = Welcome;
+	var cellEditProp = {
+	    mode: 'click'
+	};
+
+	var PriceEditor = function (_React$Component2) {
+	    _inherits(PriceEditor, _React$Component2);
+
+	    function PriceEditor(props) {
+	        _classCallCheck(this, PriceEditor);
+
+	        var _this2 = _possibleConstructorReturn(this, (PriceEditor.__proto__ || Object.getPrototypeOf(PriceEditor)).call(this, props));
+
+	        _this2.updateData = _this2.updateData.bind(_this2);
+	        _this2.state = { amount: props.defaultValue.amount, location: props.defaultValue.location };
+	        return _this2;
+	    }
+
+	    _createClass(PriceEditor, [{
+	        key: "updateData",
+	        value: function updateData() {
+	            this.props.onUpdate({ amount: this.state.amount, location: this.state.location });
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            var _this3 = this;
+
+	            return _react2.default.createElement(
+	                "div",
+	                null,
+	                _react2.default.createElement(
+	                    "select",
+	                    { value: this.state.location, onKeyDown: this.props.onKeyDown, onChange: function onChange(ev) {
+	                            _this3.setState({ location: ev.currentTarget.value });
+	                        } },
+	                    locations.map(function (location) {
+	                        return _react2.default.createElement(
+	                            "option",
+	                            { key: location, value: location },
+	                            location
+	                        );
+	                    })
+	                ),
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "btn-default  btn-xs textarea-save-btn", onClick: this.updateData },
+	                    " Save "
+	                )
+	            );
+	        }
+	    }]);
+
+	    return PriceEditor;
+	}(_react2.default.Component);
+
+	exports.default = LostProductsTable;
 
 /***/ }),
 /* 404 */
@@ -49659,6 +49861,42 @@
 	var React = __webpack_require__(1);
 	var ShowImageModal = __webpack_require__(241);
 
+	var LostItem1 = React.createClass({
+	    displayName: 'LostItem1',
+
+	    render: function render() {
+	        var _props = this.props,
+	            name = _props.name,
+	            description = _props.description,
+	            lost_location = _props.lost_location,
+	            image = _props.image,
+	            reward_price = _props.reward_price,
+	            toggle = _props.toggle,
+	            owner_name = _props.owner_name,
+	            owner_phone = _props.owner_phone;
+
+	        var aws_picture = "https://s3.amazonaws.com/lost-and-found-bucket/" + image;
+	        return React.createElement(
+	            'a',
+	            { href: '', onClick: function onClick(event) {
+	                    return toggle(aws_picture, name, reward_price, description, lost_location, owner_name, owner_phone, event);
+	                } },
+	            ' ',
+	            React.createElement('img', { src: aws_picture })
+	        );
+	    }
+	});
+	module.exports = LostItem1;
+
+/***/ }),
+/* 467 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var ShowImageModal = __webpack_require__(241);
+
 	var LostItem = React.createClass({
 	    displayName: 'LostItem',
 
@@ -49724,7 +49962,7 @@
 	module.exports = LostItem;
 
 /***/ }),
-/* 467 */
+/* 468 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49803,7 +50041,7 @@
 	              React.createElement(
 	                'a',
 	                { href: 'http://syedadilimam.com/', target: '_blank' },
-	                'Donation to Adil Imam'
+	                'Author'
 	              )
 	            )
 	          )
@@ -49816,21 +50054,21 @@
 	module.exports = Nav;
 
 /***/ }),
-/* 468 */
+/* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(469);
+	module.exports = __webpack_require__(470);
 
 /***/ }),
-/* 469 */
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(470);
-	var bind = __webpack_require__(471);
-	var Axios = __webpack_require__(473);
-	var defaults = __webpack_require__(474);
+	var utils = __webpack_require__(471);
+	var bind = __webpack_require__(472);
+	var Axios = __webpack_require__(474);
+	var defaults = __webpack_require__(475);
 
 	/**
 	 * Create an instance of Axios
@@ -49863,15 +50101,15 @@
 	};
 
 	// Expose Cancel & CancelToken
-	axios.Cancel = __webpack_require__(491);
-	axios.CancelToken = __webpack_require__(492);
-	axios.isCancel = __webpack_require__(488);
+	axios.Cancel = __webpack_require__(492);
+	axios.CancelToken = __webpack_require__(493);
+	axios.isCancel = __webpack_require__(489);
 
 	// Expose all/spread
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(493);
+	axios.spread = __webpack_require__(494);
 
 	module.exports = axios;
 
@@ -49880,13 +50118,13 @@
 
 
 /***/ }),
-/* 470 */
+/* 471 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var bind = __webpack_require__(471);
-	var isBuffer = __webpack_require__(472);
+	var bind = __webpack_require__(472);
+	var isBuffer = __webpack_require__(473);
 
 	/*global toString:true*/
 
@@ -50189,7 +50427,7 @@
 
 
 /***/ }),
-/* 471 */
+/* 472 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -50206,7 +50444,7 @@
 
 
 /***/ }),
-/* 472 */
+/* 473 */
 /***/ (function(module, exports) {
 
 	/*!
@@ -50233,17 +50471,17 @@
 
 
 /***/ }),
-/* 473 */
+/* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(474);
-	var utils = __webpack_require__(470);
-	var InterceptorManager = __webpack_require__(485);
-	var dispatchRequest = __webpack_require__(486);
-	var isAbsoluteURL = __webpack_require__(489);
-	var combineURLs = __webpack_require__(490);
+	var defaults = __webpack_require__(475);
+	var utils = __webpack_require__(471);
+	var InterceptorManager = __webpack_require__(486);
+	var dispatchRequest = __webpack_require__(487);
+	var isAbsoluteURL = __webpack_require__(490);
+	var combineURLs = __webpack_require__(491);
 
 	/**
 	 * Create a new instance of Axios
@@ -50325,13 +50563,13 @@
 
 
 /***/ }),
-/* 474 */
+/* 475 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(470);
-	var normalizeHeaderName = __webpack_require__(475);
+	var utils = __webpack_require__(471);
+	var normalizeHeaderName = __webpack_require__(476);
 
 	var DEFAULT_CONTENT_TYPE = {
 	  'Content-Type': 'application/x-www-form-urlencoded'
@@ -50347,10 +50585,10 @@
 	  var adapter;
 	  if (typeof XMLHttpRequest !== 'undefined') {
 	    // For browsers use XHR adapter
-	    adapter = __webpack_require__(476);
+	    adapter = __webpack_require__(477);
 	  } else if (typeof process !== 'undefined') {
 	    // For node use HTTP adapter
-	    adapter = __webpack_require__(476);
+	    adapter = __webpack_require__(477);
 	  }
 	  return adapter;
 	}
@@ -50424,12 +50662,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 475 */
+/* 476 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(470);
+	var utils = __webpack_require__(471);
 
 	module.exports = function normalizeHeaderName(headers, normalizedName) {
 	  utils.forEach(headers, function processHeader(value, name) {
@@ -50442,18 +50680,18 @@
 
 
 /***/ }),
-/* 476 */
+/* 477 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(470);
-	var settle = __webpack_require__(477);
-	var buildURL = __webpack_require__(480);
-	var parseHeaders = __webpack_require__(481);
-	var isURLSameOrigin = __webpack_require__(482);
-	var createError = __webpack_require__(478);
-	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(483);
+	var utils = __webpack_require__(471);
+	var settle = __webpack_require__(478);
+	var buildURL = __webpack_require__(481);
+	var parseHeaders = __webpack_require__(482);
+	var isURLSameOrigin = __webpack_require__(483);
+	var createError = __webpack_require__(479);
+	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(484);
 
 	module.exports = function xhrAdapter(config) {
 	  return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -50550,7 +50788,7 @@
 	    // This is only done if running in a standard browser environment.
 	    // Specifically not if we're in a web worker, or react-native.
 	    if (utils.isStandardBrowserEnv()) {
-	      var cookies = __webpack_require__(484);
+	      var cookies = __webpack_require__(485);
 
 	      // Add xsrf header
 	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -50629,12 +50867,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 477 */
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var createError = __webpack_require__(478);
+	var createError = __webpack_require__(479);
 
 	/**
 	 * Resolve or reject a Promise based on response status.
@@ -50661,12 +50899,12 @@
 
 
 /***/ }),
-/* 478 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var enhanceError = __webpack_require__(479);
+	var enhanceError = __webpack_require__(480);
 
 	/**
 	 * Create an Error with the specified message, config, error code, request and response.
@@ -50685,7 +50923,7 @@
 
 
 /***/ }),
-/* 479 */
+/* 480 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -50712,12 +50950,12 @@
 
 
 /***/ }),
-/* 480 */
+/* 481 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(470);
+	var utils = __webpack_require__(471);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -50786,12 +51024,12 @@
 
 
 /***/ }),
-/* 481 */
+/* 482 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(470);
+	var utils = __webpack_require__(471);
 
 	/**
 	 * Parse headers into an object
@@ -50829,12 +51067,12 @@
 
 
 /***/ }),
-/* 482 */
+/* 483 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(470);
+	var utils = __webpack_require__(471);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -50903,7 +51141,7 @@
 
 
 /***/ }),
-/* 483 */
+/* 484 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -50945,12 +51183,12 @@
 
 
 /***/ }),
-/* 484 */
+/* 485 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(470);
+	var utils = __webpack_require__(471);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -51004,12 +51242,12 @@
 
 
 /***/ }),
-/* 485 */
+/* 486 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(470);
+	var utils = __webpack_require__(471);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -51062,15 +51300,15 @@
 
 
 /***/ }),
-/* 486 */
+/* 487 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(470);
-	var transformData = __webpack_require__(487);
-	var isCancel = __webpack_require__(488);
-	var defaults = __webpack_require__(474);
+	var utils = __webpack_require__(471);
+	var transformData = __webpack_require__(488);
+	var isCancel = __webpack_require__(489);
+	var defaults = __webpack_require__(475);
 
 	/**
 	 * Throws a `Cancel` if cancellation has been requested.
@@ -51147,12 +51385,12 @@
 
 
 /***/ }),
-/* 487 */
+/* 488 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(470);
+	var utils = __webpack_require__(471);
 
 	/**
 	 * Transform the data for a request or a response
@@ -51173,7 +51411,7 @@
 
 
 /***/ }),
-/* 488 */
+/* 489 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -51184,7 +51422,7 @@
 
 
 /***/ }),
-/* 489 */
+/* 490 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -51204,7 +51442,7 @@
 
 
 /***/ }),
-/* 490 */
+/* 491 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -51224,7 +51462,7 @@
 
 
 /***/ }),
-/* 491 */
+/* 492 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -51249,12 +51487,12 @@
 
 
 /***/ }),
-/* 492 */
+/* 493 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Cancel = __webpack_require__(491);
+	var Cancel = __webpack_require__(492);
 
 	/**
 	 * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -51312,7 +51550,7 @@
 
 
 /***/ }),
-/* 493 */
+/* 494 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -51345,12 +51583,12 @@
 
 
 /***/ }),
-/* 494 */
+/* 495 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _LoadingComponent = __webpack_require__(495);
+	var _LoadingComponent = __webpack_require__(496);
 
 	var _LoadingComponent2 = _interopRequireDefault(_LoadingComponent);
 
@@ -51358,8 +51596,8 @@
 
 	var React = __webpack_require__(1);
 	var Footer = __webpack_require__(401);
-	var Nav = __webpack_require__(467);
-	var axios = __webpack_require__(468);
+	var Nav = __webpack_require__(468);
+	var axios = __webpack_require__(469);
 
 
 	var About = React.createClass({
@@ -51631,7 +51869,7 @@
 	module.exports = About;
 
 /***/ }),
-/* 495 */
+/* 496 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51644,7 +51882,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactLoading = __webpack_require__(496);
+	var _reactLoading = __webpack_require__(497);
 
 	var _reactLoading2 = _interopRequireDefault(_reactLoading);
 
@@ -51668,7 +51906,7 @@
 	exports.default = LoadComp;
 
 /***/ }),
-/* 496 */
+/* 497 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
