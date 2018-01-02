@@ -1,8 +1,10 @@
-var React = require('react');
 var Footer=require('Footer');
 var Nav=require('Nav');
 var axios=require('axios');
 import LoadingComponent from 'LoadingComponent';
+import React, { Component } from 'react';
+import ImagesUploader from 'react-images-uploader';
+
 
 var About = React.createClass({
 getInitialState: function(){  
@@ -160,7 +162,16 @@ render: function(){
                  <div className="form-group">
                   <label htmlFor="inputEmail" className="col-lg-2 control-label">Item Picture</label>
                   <div className="col-lg-10">
-                        <input type='file' ref="itemPicture" label='upload' className=""/>
+                   <ImagesUploader url="http://localhost:3000/multiple"
+                          optimisticPreviews={true}
+                          multiple={true}
+                          onLoadEnd={(err) => {
+                              if (err) {
+                                  console.error(err);
+                              }
+                          }}
+
+                      />
                   </div>
                 </div>
                  

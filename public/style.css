@@ -1,20 +1,67 @@
 .report-section img{    
     height: auto;
-    max-width:150px;    
+    max-height: 100px;
+    max-width:120px;
 }
 
 .logo{ 
 margin-top: -10%;
-
 }
 
 .custom-nav{
-    
-    height:8%;
+    height: 9%;
 }
 
 #loading-spinner{
     margin-left:35%;
     margin-right: 20%;
     margin-top: 0%;
+}
+
+.checkbox label:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.checkbox .cr {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #a9a9a9;
+    border-radius: .25em;
+    width: 1.3em;
+    height: 1.3em;
+    float: left;
+    margin-right: .5em;
+}
+
+.checkbox .cr .cr-icon {
+    position: absolute;
+    font-size: .8em;
+    line-height: 0;
+    top: 50%;
+    left: 20%;
+
+}
+
+.checkbox label input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox label input[type="checkbox"]+.cr>.cr-icon {
+    opacity: 0;
+}
+
+.checkbox label input[type="checkbox"]:checked+.cr>.cr-icon {
+    opacity: 1;
+    color:white;
+   }
+
+.checkbox label input[type="checkbox"]:checked+.cr{
+    opacity: 1;
+    background-color: #d9230f;
+}
+
+.checkbox label input[type="checkbox"]:disabled+.cr {
+    opacity: .5;
 }

@@ -87,8 +87,8 @@ render: function(){
                </div>
                    <ShowImageModal show={this.state.isOpen} close={this.closeModal} attributes={this.state}/>
                </div>
-            
-            <div className="container">
+
+            { /*   <div className="container">
                 <div className="row">
                     <div className="bs-component">
                       <ul className="pagination pagination-lg">
@@ -102,7 +102,7 @@ render: function(){
                       </ul>
                     </div>
              </div>
-         </div>
+         </div> */}
 
         </div>                
     );

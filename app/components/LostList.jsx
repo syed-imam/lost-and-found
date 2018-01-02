@@ -55,7 +55,7 @@ render: function(){
     return(  
         <div>
           <ShowImageModal show={this.state.isOpen} close={this.closeModal} attributes={this.state}/> 
-                  <table className="table table-striped table-hover">
+            { /* <table className="table table-striped table-hover">
                                 <thead>
                                   <tr>
                                     <th>Item Picture</th>  
@@ -69,7 +69,7 @@ render: function(){
                                  <tbody>
                                       {generateLostList()}                                          
                                  </tbody>                   
-                 </table>
+                 </table> */ }
             <LostProductsTable/>
         </div>
     );

@@ -3,8 +3,10 @@ import {BootstrapTable, TableHeaderColumn} from "react-bootstrap-table";
 import LostItem1 from "LostItem1";
 const locations = [ 'Library', 'Cafeteria', 'Parking Lot', 'NAB', 'Lab', 'Bursar Office', 'Registrar Office'];
 import ShowImageModal from 'ShowImageModal';
+import CheckBox from 'CheckBox';
 
 const createPriceEditor = (onUpdate, props) => (<PriceEditor onUpdate={ onUpdate } {...props}/>);
+
 
 class LostProductsTable extends React.Component {
       constructor(props) {
@@ -46,6 +48,10 @@ class LostProductsTable extends React.Component {
         return(<LostItem1 {...row} toggle={this.toggleModal.bind(this)}> </LostItem1>);
     }
 
+    foundIt(cell, row){
+        return(<CheckBox {...row} toggle={this.toggleModal.bind(this)}/>);
+                }
+
     render() {
 
         var products= [{
@@ -59,7 +65,7 @@ class LostProductsTable extends React.Component {
             owner_phone:"516-435-3556"}
             ,{
                 id:2,
-                image:"1499053206521_watch.jpg",
+                image:"1509694318776_syed.jpg",
                 name:"Car",
                 reward_price:56,
                 description:"Big black car",
@@ -124,7 +130,7 @@ class LostProductsTable extends React.Component {
                 id:9,
                 image:"1499053206521_watch.jpg",
                 name:"Car",
-                reward_price:56,
+                reward_price:26,
                 description:"Big black car",
                 lost_location:"Unknown",
                 owner_name:"Adil Imam",
@@ -133,7 +139,7 @@ class LostProductsTable extends React.Component {
                 id:10,
                 image:"1499053206521_watch.jpg",
                 name:"Car",
-                reward_price:56,
+                reward_price:76,
                 description:"Big black car",
                 lost_location:"Unknown",
                 owner_name:"Adil Imam",
@@ -142,7 +148,7 @@ class LostProductsTable extends React.Component {
                 id:11,
                 image:"1499053206521_watch.jpg",
                 name:"Car",
-                reward_price:56,
+                reward_price:16,
                 description:"Big black car",
                 lost_location:"Unknown",
                 owner_name:"Adil Imam",
@@ -152,13 +158,14 @@ class LostProductsTable extends React.Component {
         return(
            <div>
                <ShowImageModal show={this.state.isOpen} close={this.closeModal.bind(this)} attributes={this.state.itemInfo}/>
-               <BootstrapTable data={products} striped={true} hover={true} cellEdit={cellEditProp}  pagination={true}>
+               <BootstrapTable data={products} search={ true } options={{clearSearch: true}} striped={true} hover={true} cellEdit={cellEditProp}  pagination={true}>
+                   <TableHeaderColumn dataAlign="center"  width='60' dataFormat={this.foundIt.bind(this)} editable={ false } ><i className="glyphicon glyphicon-search"></i>  </TableHeaderColumn>
                    <TableHeaderColumn dataField="image" dataFormat={this.imageFormatter.bind(this)}  dataAlign="center"  isKey={true}>   Item Picture </TableHeaderColumn>
-                   <TableHeaderColumn dataField="name" dataAlign="center" dataSort={ true }> Item Name </TableHeaderColumn>
+                   <TableHeaderColumn dataField="name" dataAlign="center" dataSort={true}> Item Name </TableHeaderColumn>
                    <TableHeaderColumn dataField="reward_price" dataAlign="center" dataFormat={this.priceFormatter} dataSort={ true }> Reward Price </TableHeaderColumn>
                    <TableHeaderColumn dataField="description" dataAlign="center"> Item Description </TableHeaderColumn>
-                   <TableHeaderColumn dataField="lost_location" dataAlign="center"  customEditor={ { getElement: createPriceEditor, customEditorParameters: { currencies: location } } }> Lost Location </TableHeaderColumn>
-                   <TableHeaderColumn dataField="owner_name" dataAlign="center"> Owner </TableHeaderColumn>
+                   <TableHeaderColumn dataField="lost_location" dataAlign="center"  editable={ { type: 'select', options: { values: locations } } }> Lost Location </TableHeaderColumn>
+                   <TableHeaderColumn dataField="owner_name" dataAlign="center" editable={false}> Owner </TableHeaderColumn>
                    <TableHeaderColumn dataField="owner_phone" dataAlign="center"> Phone </TableHeaderColumn>
            </BootstrapTable>
            </div>
@@ -184,10 +191,9 @@ class PriceEditor extends React.Component {
     render() {
         return (
             <div>
-                <select value={ this.state.location } onKeyDown={ this.props.onKeyDown } onChange={ (ev) => { this.setState({ location: ev.currentTarget.value }); } } >
+                <select className="input-sm" value={ this.state.location } onKeyDown={ this.props.onKeyDown } onChange={ (ev) => { this.setState({ location: ev.currentTarget.value }); } } >
                   { locations.map(location => (<option key={ location } value={ location }>{ location }</option>)) }
                 </select>
-                <button className='btn-default  btn-xs textarea-save-btn' onClick={this.updateData}> Save </button>
            </div>
         );
     }
