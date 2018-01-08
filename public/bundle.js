@@ -35618,7 +35618,11 @@
 
 	var _ShowImageModal2 = _interopRequireDefault(_ShowImageModal);
 
-	var _CheckBox = __webpack_require__(467);
+	var _FoundModal = __webpack_require__(467);
+
+	var _FoundModal2 = _interopRequireDefault(_FoundModal);
+
+	var _CheckBox = __webpack_require__(468);
 
 	var _CheckBox2 = _interopRequireDefault(_CheckBox);
 
@@ -35681,7 +35685,6 @@
 	    }, {
 	        key: "saveItems",
 	        value: function saveItems(id, value) {
-
 	            if (value) {
 	                var itemsA = this.state.itemsPro;
 	                itemsA.push(id);
@@ -35734,104 +35737,47 @@
 	            return _react2.default.createElement(_CheckBox2.default, _extends({}, row, { save: this.saveItems.bind(this), toggle: this.toggleModal.bind(this) }));
 	        }
 	    }, {
+	        key: "submitItems",
+	        value: function submitItems() {
+	            console.log(this.state.itemsPro);
+	        }
+	    }, {
 	        key: "render",
 	        value: function render() {
-
-	            var products = [{
-	                id: 1,
-	                image: "1499053206521_watch.jpg",
-	                name: "Car",
-	                reward_price: 56,
-	                description: "Big black car",
-	                lost_location: "Unknown",
-	                owner_name: "Adil Imam",
-	                owner_phone: "516-435-3556" }, {
-	                id: 2,
-	                image: "1509694318776_syed.jpg",
-	                name: "Car",
-	                reward_price: 56,
-	                description: "Big black car",
-	                lost_location: "Unknown",
-	                owner_name: "Adil Imam",
-	                owner_phone: "516-435-3556" }, {
-	                id: 3,
-	                image: "1499053206521_watch.jpg",
-	                name: "Car",
-	                reward_price: 56,
-	                description: "Big black car",
-	                lost_location: "Unknown",
-	                owner_name: "Adil Imam",
-	                owner_phone: "516-435-3556" }, {
-	                id: 4,
-	                image: "1499053206521_watch.jpg",
-	                name: "Car",
-	                reward_price: 56,
-	                description: "Big black car",
-	                lost_location: "Unknown",
-	                owner_name: "Adil Imam",
-	                owner_phone: "516-435-3556" }, {
-	                id: 5,
-	                image: "1499053206521_watch.jpg",
-	                name: "Car",
-	                reward_price: 56,
-	                description: "Big black car",
-	                lost_location: "Unknown",
-	                owner_name: "Adil Imam",
-	                owner_phone: "516-435-3556" }, {
-	                id: 6,
-	                image: "1499053206521_watch.jpg",
-	                name: "Car",
-	                reward_price: 56,
-	                description: "Big black car",
-	                lost_location: "Unknown",
-	                owner_name: "Adil Imam",
-	                owner_phone: "516-435-3556" }, {
-	                id: 7,
-	                image: "1499053206521_watch.jpg",
-	                name: "Car",
-	                reward_price: 56,
-	                description: "Big black car",
-	                lost_location: "Unknown",
-	                owner_name: "Adil Imam",
-	                owner_phone: "516-435-3556" }, {
-	                id: 8,
-	                image: "1499053206521_watch.jpg",
-	                name: "Car",
-	                reward_price: 56,
-	                description: "Big black car",
-	                lost_location: "Unknown",
-	                owner_name: "Adil Imam",
-	                owner_phone: "516-435-3556" }, {
-	                id: 9,
-	                image: "1499053206521_watch.jpg",
-	                name: "Car",
-	                reward_price: 26,
-	                description: "Big black car",
-	                lost_location: "Unknown",
-	                owner_name: "Adil Imam",
-	                owner_phone: "516-435-3556" }, {
-	                id: 10,
-	                image: "1499053206521_watch.jpg",
-	                name: "Car",
-	                reward_price: 76,
-	                description: "Big black car",
-	                lost_location: "Unknown",
-	                owner_name: "Adil Imam",
-	                owner_phone: "516-435-3556" }, {
-	                id: 11,
-	                image: "1499053206521_watch.jpg",
-	                name: "Car",
-	                reward_price: 16,
-	                description: "Big black car",
-	                lost_location: "Unknown",
-	                owner_name: "Adil Imam",
-	                owner_phone: "516-435-3556" }];
 
 	            return _react2.default.createElement(
 	                "div",
 	                null,
 	                _react2.default.createElement(_ShowImageModal2.default, { show: this.state.isOpen, close: this.closeModal.bind(this), attributes: this.state.itemInfo }),
-	                _react2.default.createElement("input", { type: "button", className: "btn btn-primary", onClick: this.closeModal, value: "Found it!" }),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "form-group" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "row" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "col-md-3" },
+	                            _react2.default.createElement("input", { type: "text", placeholder: "Full Name", className: "form-control" })
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "col-md-3" },
+	                            _react2.default.createElement("input", { type: "text", placeholder: "XXX-XXX-XXXX", className: "form-control" })
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "col-md-4" },
+	                            _react2.default.createElement("input", { type: "email", placeholder: "Enter email", className: "form-control" })
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "col-md-2" },
+	                            _react2.default.createElement("input", { type: "button", className: "btn btn-primary", onClick: this.submitItems.bind(this), value: "Found it!" })
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement("br", null),
 	                _react2.default.createElement(
 	                    _reactBootstrapTable.BootstrapTable,
 	                    { data: this.state.items, search: true, options: { clearSearch: true }, striped: true, hover: true, cellEdit: cellEditProp, pagination: true },
@@ -49810,6 +49756,79 @@
 
 	'use strict';
 
+	var React = __webpack_require__(1);
+	var Modal = __webpack_require__(242);
+	var Button = __webpack_require__(382);
+	var Popover = __webpack_require__(387);
+	var OverlayTrigger = __webpack_require__(389);
+	var Tooltip = __webpack_require__(400);
+
+	var FoundModal = React.createClass({
+	    displayName: 'FoundModal',
+
+	    render: function render() {
+	        var popover = React.createElement(Popover, { id: 'modal-popover', title: 'popover' });
+	        var tooltip = React.createElement(Tooltip, { id: 'modal-tooltip' });
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                Modal,
+	                { bsSize: 'large', 'aria-labelledby': 'contained-modal-title-lg' },
+	                React.createElement(
+	                    Modal.Header,
+	                    { closeButton: true },
+	                    React.createElement(
+	                        Modal.Title,
+	                        null,
+	                        'Found Apple'
+	                    )
+	                ),
+	                React.createElement(
+	                    Modal.Body,
+	                    null,
+	                    React.createElement(
+	                        'h4',
+	                        null,
+	                        'Claim this item?'
+	                    ),
+	                    React.createElement(
+	                        'p',
+	                        null,
+	                        React.createElement(
+	                            OverlayTrigger,
+	                            { overlay: tooltip },
+	                            React.createElement(
+	                                'a',
+	                                { href: '#' },
+	                                'tooltip'
+	                            )
+	                        )
+	                    ),
+	                    React.createElement('hr', null)
+	                ),
+	                React.createElement(
+	                    Modal.Footer,
+	                    null,
+	                    React.createElement(
+	                        Button,
+	                        { onClick: this.props.close },
+	                        'Close'
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+	module.exports = FoundModal;
+
+/***/ }),
+/* 468 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
@@ -49820,7 +49839,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _FoundModal = __webpack_require__(468);
+	var _FoundModal = __webpack_require__(467);
 
 	var _FoundModal2 = _interopRequireDefault(_FoundModal);
 
@@ -49903,167 +49922,6 @@
 	}(_react2.default.Component);
 
 	exports.default = CheckBox;
-
-/***/ }),
-/* 468 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-	var Modal = __webpack_require__(242);
-	var Button = __webpack_require__(382);
-	var Popover = __webpack_require__(387);
-	var OverlayTrigger = __webpack_require__(389);
-	var Tooltip = __webpack_require__(400);
-
-	var FoundModal = React.createClass({
-	    displayName: 'FoundModal',
-
-	    render: function render() {
-	        var popover = React.createElement(Popover, { id: 'modal-popover', title: 'popover' });
-	        var tooltip = React.createElement(Tooltip, { id: 'modal-tooltip' });
-	        return React.createElement(
-	            'div',
-	            null,
-	            React.createElement(
-	                Modal,
-	                { bsSize: 'large', 'aria-labelledby': 'contained-modal-title-lg' },
-	                React.createElement(
-	                    Modal.Header,
-	                    { closeButton: true },
-	                    React.createElement(
-	                        Modal.Title,
-	                        null,
-	                        name
-	                    )
-	                ),
-	                React.createElement(
-	                    Modal.Body,
-	                    null,
-	                    React.createElement(
-	                        'div',
-	                        { className: 'row' },
-	                        React.createElement(
-	                            'div',
-	                            { className: 'col-sm-6' },
-	                            React.createElement('img', { src: image, alt: 'item picture', height: '100%', width: '100%' })
-	                        ),
-	                        React.createElement(
-	                            'div',
-	                            { className: 'col-sm-6' },
-	                            React.createElement(
-	                                'div',
-	                                { className: 'form-group' },
-	                                React.createElement(
-	                                    'div',
-	                                    { className: 'row' },
-	                                    React.createElement(
-	                                        'h3',
-	                                        null,
-	                                        React.createElement(
-	                                            'label',
-	                                            { className: 'form-label' },
-	                                            'Description'
-	                                        )
-	                                    ),
-	                                    desc
-	                                ),
-	                                React.createElement(
-	                                    'div',
-	                                    { className: 'row' },
-	                                    React.createElement(
-	                                        'h3',
-	                                        null,
-	                                        React.createElement(
-	                                            'label',
-	                                            { className: 'form-label' },
-	                                            'Price'
-	                                        )
-	                                    ),
-	                                    '$',
-	                                    price
-	                                ),
-	                                React.createElement(
-	                                    'div',
-	                                    { className: 'row' },
-	                                    React.createElement(
-	                                        'h3',
-	                                        null,
-	                                        React.createElement(
-	                                            'label',
-	                                            { className: 'form-label' },
-	                                            'Lost Location'
-	                                        )
-	                                    ),
-	                                    location
-	                                ),
-	                                React.createElement(
-	                                    'div',
-	                                    { className: 'row' },
-	                                    React.createElement(
-	                                        'h3',
-	                                        null,
-	                                        React.createElement(
-	                                            'label',
-	                                            { className: 'form-label' },
-	                                            'Owner Name'
-	                                        )
-	                                    ),
-	                                    owner_name
-	                                ),
-	                                React.createElement(
-	                                    'div',
-	                                    { className: 'row' },
-	                                    React.createElement(
-	                                        'h3',
-	                                        null,
-	                                        React.createElement(
-	                                            'label',
-	                                            { className: 'form-label' },
-	                                            'Owner Phone'
-	                                        )
-	                                    ),
-	                                    owner_phone
-	                                )
-	                            )
-	                        )
-	                    ),
-	                    React.createElement(
-	                        'h4',
-	                        null,
-	                        'Claim this item?'
-	                    ),
-	                    React.createElement(
-	                        'p',
-	                        null,
-	                        React.createElement(
-	                            OverlayTrigger,
-	                            { overlay: tooltip },
-	                            React.createElement(
-	                                'a',
-	                                { href: '#' },
-	                                'tooltip'
-	                            )
-	                        )
-	                    ),
-	                    React.createElement('hr', null)
-	                ),
-	                React.createElement(
-	                    Modal.Footer,
-	                    null,
-	                    React.createElement(
-	                        Button,
-	                        { onClick: this.props.close },
-	                        'Close'
-	                    )
-	                )
-	            )
-	        );
-	    }
-	});
-
-	module.exports = FoundModal;
 
 /***/ }),
 /* 469 */
