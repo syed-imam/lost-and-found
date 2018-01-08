@@ -12,12 +12,15 @@ getInitialState: function(){
         itemName:'',
         itemDesc:'',
         lostLocation:'',
-        itemPrice:'',        
+        itemPrice:'',
+        images:[]
     }    
 },    
 handleForm: function(e){
   LoadingComponent();
   e.preventDefault();
+  console.log(this.state.images);
+ /*
   var name=this.refs.itemName.value;
   var desc=this.refs.itemDesc.value;    
   var lostLocation=this.refs.lostLocation.value; 
@@ -80,7 +83,8 @@ this.setState({
             });
     
     console.log(this.state);
-});   //this.setState is asynchronous
+});  */
+//this.setState is asynchronous
 },
     
 uploadPhotoToS3:function(){
@@ -160,7 +164,7 @@ render: function(){
                  <div className="form-group">
                   <label htmlFor="inputEmail" className="col-lg-2 control-label">Item Picture</label>
                   <div className="col-lg-10">
-                   <ImagesUploader url="http://localhost:3000/multiple"
+                   <ImagesUploader url="http://localhost:9090/multiple"
                           optimisticPreviews={true}
                           multiple={true}
                           onLoadEnd={(err) => {

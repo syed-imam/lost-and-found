@@ -51689,70 +51689,79 @@
 	      itemName: '',
 	      itemDesc: '',
 	      lostLocation: '',
-	      itemPrice: ''
+	      itemPrice: '',
+	      images: []
 	    };
 	  },
 	  handleForm: function handleForm(e) {
 	    (0, _LoadingComponent2.default)();
 	    e.preventDefault();
-	    var name = this.refs.itemName.value;
-	    var desc = this.refs.itemDesc.value;
-	    var lostLocation = this.refs.lostLocation.value;
-	    var itemPrice = this.refs.itemPrice.value;
-	    var ownerName = this.refs.ownerName.value;
-	    var ownerPhone = this.refs.ownerPhone.value;
-	    var itemPicture = this.refs.itemPicture.files[0]; //this is an image file
-
-	    this.clearFunction();
-
-	    console.log(name);
-	    console.log(desc);
-	    console.log(lostLocation);
-	    console.log(itemPrice);
-	    console.log(itemPicture);
-
+	    console.log(this.state.images);
+	    /*
+	     var name=this.refs.itemName.value;
+	     var desc=this.refs.itemDesc.value;    
+	     var lostLocation=this.refs.lostLocation.value; 
+	     var itemPrice=this.refs.itemPrice.value;
+	     var ownerName=this.refs.ownerName.value;
+	     var ownerPhone=this.refs.ownerPhone.value;    
+	     var itemPicture=this.refs.itemPicture.files[0];  //this is an image file
+	    
+	     this.clearFunction();
+	       
+	       console.log(name);
+	       console.log(desc);
+	       console.log(lostLocation);
+	       console.log(itemPrice);
+	       console.log(itemPicture);
+	    
 	    //this inside of this doesnt know what it is    
 	    this.setState({
-	      itemName: name,
-	      itemDesc: desc,
-	      itemPrice: itemPrice,
-	      lostLocation: lostLocation,
-	      ownerName: ownerName,
-	      ownerPhone: ownerPhone
-	    }, function () {
-	      //ajax this info
-	      var data = new FormData();
-	      data.append('file', itemPicture);
-	      var config1 = {
-	        headers: { 'content-type': 'multipart/form-data' //it has to be multipart form data
-	        } };
-	      var url = 'http://localhost:8080/upload/';
-
-	      var data2 = this.state;
-
-	      axios.post(url, data, config1).then(function (response) {
-	        // console.log(response);
-	        var config2 = {
-	          headers: { 'content-type': 'application/json' //it has to be multipart form data
-	          } };
-
-	        var url1 = 'http://localhost:8080/lostdata/';
-
-	        axios.post(url1, data2, config2).then(function (response) {
-
-	          console.log(response);
-	          (0, _LoadingComponent2.default)();
-	        }).catch(function (error) {
-	          console.log(error);
-	          (0, _LoadingComponent2.default)();
-	        });
-	      }).catch(function (error) {
-	        console.log(error);
-	        (0, _LoadingComponent2.default)();
-	      });
-
-	      console.log(this.state);
-	    }); //this.setState is asynchronous
+	       itemName:name,
+	       itemDesc:desc,   
+	       itemPrice:itemPrice,
+	       lostLocation:lostLocation,
+	       ownerName:ownerName,
+	       ownerPhone:ownerPhone     
+	     }, function(){  
+	     //ajax this info
+	       var data = new FormData();
+	       data.append('file', itemPicture);
+	       const config1 = {
+	               headers: {'content-type': 'multipart/form-data'}   //it has to be multipart form data
+	           }
+	         const url ='http://localhost:8080/upload/';
+	       
+	       var data2=this.state;
+	      
+	         axios.post(url, data, config1)
+	               .then(function(response){            
+	                    // console.log(response);
+	                      const config2 = {
+	                         headers: {'content-type': 'application/json'}   //it has to be multipart form data
+	                      }
+	    
+	        
+	       const url1 ='http://localhost:8080/lostdata/';
+	     
+	       axios.post(url1,data2,config2)
+	               .then(function(response){
+	    
+	                   console.log(response);
+	                   LoadingComponent();
+	               })
+	               .catch(function(error) {
+	                   console.log(error);
+	                   LoadingComponent();
+	               });     
+	         
+	            }).catch(function(error) {
+	                   console.log(error);
+	                   LoadingComponent();
+	               });
+	       
+	       console.log(this.state);
+	    });  */
+	    //this.setState is asynchronous
 	  },
 
 	  uploadPhotoToS3: function uploadPhotoToS3() {},
@@ -51916,14 +51925,15 @@
 	                  _react2.default.createElement(
 	                    'div',
 	                    { className: 'col-lg-10' },
-	                    _react2.default.createElement(_reactImagesUploader2.default, { url: 'http://localhost:3000/multiple',
+	                    _react2.default.createElement(_reactImagesUploader2.default, { url: 'http://localhost:9090/multiple',
 	                      optimisticPreviews: true,
 	                      multiple: true,
 	                      onLoadEnd: function onLoadEnd(err) {
 	                        if (err) {
 	                          console.error(err);
 	                        }
-	                      }
+	                      },
+	                      images: this.state.images
 	                    })
 	                  )
 	                ),
@@ -72209,7 +72219,7 @@
 	        _this.state = {
 	            isOpen: false,
 	            itemInfo: {},
-	            items: [{ id: 1, name: "Camera", found_location: "Library", picture: "camera.jpg", finder_name: "Rafael Nadal", finder_phone: "515-433-2223", finder_email: "syedadilimam93@gmail.com" }],
+	            items: [{ id: 1, name: "Camera", found_location: "Library", picture: "1499026213915_watch.jpg", finder_name: "Rafael Nadal", finder_phone: "515-433-2223", finder_email: "syedadilimam93@gmail.com" }],
 	            itemsPro: []
 	        };
 	        return _this;
@@ -72295,7 +72305,7 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            _reactBootstrapTable.TableHeaderColumn,
-	                            { dataField: "finder_name", dataAlign: "center", editable: false },
+	                            { dataField: "finder_name", dataAlign: "center" },
 	                            " Finder Name "
 	                        ),
 	                        _react2.default.createElement(

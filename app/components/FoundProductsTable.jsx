@@ -21,7 +21,7 @@ class FoundProductsTable extends React.Component {
         this.state = {
             isOpen: false,
             itemInfo: {},
-            items:[{id:1, name:"Camera", found_location:"Library", picture:"camera.jpg", finder_name:"Rafael Nadal", finder_phone:"515-433-2223", finder_email:"syedadilimam93@gmail.com"}],
+            items:[{id:1, name:"Camera", found_location:"Library", picture:"1499026213915_watch.jpg", finder_name:"Rafael Nadal", finder_phone:"515-433-2223", finder_email:"syedadilimam93@gmail.com"}],
             itemsPro:[]
         };
     }
@@ -78,7 +78,7 @@ class FoundProductsTable extends React.Component {
                     <TableHeaderColumn dataField="image" dataFormat={this.imageFormatter.bind(this)}  dataAlign="center"  isKey={true}>   Item Picture </TableHeaderColumn>
                     <TableHeaderColumn dataField="name" dataAlign="center" dataSort={true}> Item Name </TableHeaderColumn>
                     <TableHeaderColumn dataField="found_location" dataAlign="center"> Lost Location </TableHeaderColumn>
-                    <TableHeaderColumn dataField="finder_name" dataAlign="center" editable={false}> Finder Name </TableHeaderColumn>
+                    <TableHeaderColumn dataField="finder_name" dataAlign="center"> Finder Name </TableHeaderColumn>
                     <TableHeaderColumn dataField="finder_phone" dataAlign="center"> Finder Phone </TableHeaderColumn>
                     <TableHeaderColumn dataField="finder_email" dataAlign="center"> Finder Email </TableHeaderColumn>
                 </BootstrapTable>

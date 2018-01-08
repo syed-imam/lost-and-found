@@ -20,6 +20,7 @@
     "react-loading": "^1.0.3",
     "react-paginate": "^5.0.0",
     "react-router": "^2.0.0",
+    "s3": "^4.4.0",
     "superagent": "^3.5.2"
   },
   "devDependencies": {
