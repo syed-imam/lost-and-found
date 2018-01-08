@@ -19,7 +19,8 @@ module.exports = {
       LoadingComponent: 'app/components/LoadingComponent.jsx',
       LostProductsTable: 'app/components/LostProductsTable.jsx',
       CheckBox:'app/components/CheckBox.jsx',
-      FoundModal: 'app/components/FoundModal.jsx'
+      FoundModal: 'app/components/FoundModal.jsx',
+      FoundProductsTable: 'app/components/FoundProductsTable.jsx'
     },
     extensions: ['', '.js', '.jsx']
   },

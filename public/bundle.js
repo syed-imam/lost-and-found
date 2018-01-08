@@ -57,12 +57,14 @@
 
 	var Main = __webpack_require__(222);
 	var About = __webpack_require__(497);
+	var FoundProductsTable = __webpack_require__(901);
 
 	ReactDOM.render(React.createElement(
 	  Router,
 	  { history: hashHistory },
 	  React.createElement(Route, { path: '/', component: Main }),
-	  React.createElement(Route, { path: 'lost', component: About })
+	  React.createElement(Route, { path: 'lost', component: About }),
+	  React.createElement(Route, { path: 'found', component: FoundProductsTable })
 	), document.getElementById('app'));
 
 /***/ }),
@@ -35658,26 +35660,25 @@
 	        _this.state = {
 	            isOpen: false,
 	            itemInfo: {},
-	            items: [],
+	            items: [{ id: 1, name: "Camera", description: "asdfdf", lost_location: "Library", reward_price: "343", picture: "camera.jpg", owner_name: "Rafael Nadal", owner_phone: "515-433-2223" }],
 	            itemsPro: []
 	        };
 	        return _this;
 	    }
 
-	    _createClass(LostProductsTable, [{
-	        key: "componentDidMount",
-	        value: function componentDidMount() {
-	            var _this2 = this;
+	    /*
+	    componentDidMount(){
+	          axios.get("http://localhost:8080/retrievelost").then((result)=>{
+	            this.setState({  isOpen: false,
+	                  itemInfo: {},
+	                  items: result.data});
+	          }).catch(function(error){
+	             console.log(error);
+	          });
+	    }
+	    */
 
-	            _axios2.default.get("http://localhost:8080/retrievelost").then(function (result) {
-	                _this2.setState({ isOpen: false,
-	                    itemInfo: {},
-	                    items: result.data });
-	            }).catch(function (error) {
-	                console.log(error);
-	            });
-	        }
-	    }, {
+	    _createClass(LostProductsTable, [{
 	        key: "priceFormatter",
 	        value: function priceFormatter(cell, row) {
 	            return "<div> $" + cell + " </div>";
@@ -35738,42 +35739,80 @@
 	        }
 	    }, {
 	        key: "submitItems",
-	        value: function submitItems() {
-	            console.log(this.state.itemsPro);
+	        value: function submitItems(e) {
+	            e.preventDefault();
+	            if (this.state.itemsPro.length != 0) {
+	                console.log(this.refs.name.value);
+	                console.log(this.refs.phone.value);
+	                console.log(this.refs.email.value);
+	                console.log(this.state.itemsPro);
+	                //Ajax submit here, when request is completed, execute the following code on the callback
+
+	                //Remove the element from the array and set state again
+	                var itemsList = this.state.items;
+	                console.log(itemsList);
+
+	                for (var i = 0; i < this.state.itemsPro.length; i++) {
+	                    for (var j = 0; j < itemsList.length; j++) {
+	                        if (itemsList[j].id === this.state.itemsPro[i]) {
+	                            console.log("true");
+	                            itemsList.splice(j, 1);
+	                        }
+	                    }
+	                }
+	                this.setState({ isOpen: false,
+	                    itemInfo: {},
+	                    items: itemsList
+	                });
+
+	                //Reset refs values
+	                this.refs.name.value = '';
+	                this.refs.phone.value = '';
+	                this.refs.email.value = '';
+	            } else {
+	                alert("0 items have been selected");
+	            }
 	        }
 	    }, {
 	        key: "render",
 	        value: function render() {
-
 	            return _react2.default.createElement(
 	                "div",
 	                null,
 	                _react2.default.createElement(_ShowImageModal2.default, { show: this.state.isOpen, close: this.closeModal.bind(this), attributes: this.state.itemInfo }),
 	                _react2.default.createElement(
-	                    "div",
-	                    { className: "form-group" },
+	                    "form",
+	                    { onSubmit: this.submitItems.bind(this) },
 	                    _react2.default.createElement(
 	                        "div",
-	                        { className: "row" },
+	                        { className: "form-group" },
 	                        _react2.default.createElement(
 	                            "div",
-	                            { className: "col-md-3" },
-	                            _react2.default.createElement("input", { type: "text", placeholder: "Full Name", className: "form-control" })
-	                        ),
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "col-md-3" },
-	                            _react2.default.createElement("input", { type: "text", placeholder: "XXX-XXX-XXXX", className: "form-control" })
-	                        ),
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "col-md-4" },
-	                            _react2.default.createElement("input", { type: "email", placeholder: "Enter email", className: "form-control" })
-	                        ),
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "col-md-2" },
-	                            _react2.default.createElement("input", { type: "button", className: "btn btn-primary", onClick: this.submitItems.bind(this), value: "Found it!" })
+	                            { className: "row" },
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-md-3" },
+	                                _react2.default.createElement("input", { type: "text", placeholder: "Full Name", ref: "name", className: "form-control", required: true })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-md-3" },
+	                                _react2.default.createElement("input", { type: "phone", placeholder: "XXX-XXX-XXXX", ref: "phone", className: "form-control", required: true })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-md-4" },
+	                                _react2.default.createElement("input", { type: "email", placeholder: "Enter email", ref: "email", className: "form-control", required: true })
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "col-md-2" },
+	                                _react2.default.createElement(
+	                                    "button",
+	                                    { className: "btn btn-primary" },
+	                                    "Found it!"
+	                                )
+	                            )
 	                        )
 	                    )
 	                ),
@@ -35840,11 +35879,11 @@
 	    function PriceEditor(props) {
 	        _classCallCheck(this, PriceEditor);
 
-	        var _this3 = _possibleConstructorReturn(this, (PriceEditor.__proto__ || Object.getPrototypeOf(PriceEditor)).call(this, props));
+	        var _this2 = _possibleConstructorReturn(this, (PriceEditor.__proto__ || Object.getPrototypeOf(PriceEditor)).call(this, props));
 
-	        _this3.updateData = _this3.updateData.bind(_this3);
-	        _this3.state = { amount: props.defaultValue.amount, location: props.defaultValue.location };
-	        return _this3;
+	        _this2.updateData = _this2.updateData.bind(_this2);
+	        _this2.state = { amount: props.defaultValue.amount, location: props.defaultValue.location };
+	        return _this2;
 	    }
 
 	    _createClass(PriceEditor, [{
@@ -35855,7 +35894,7 @@
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            var _this4 = this;
+	            var _this3 = this;
 
 	            return _react2.default.createElement(
 	                "div",
@@ -35863,7 +35902,7 @@
 	                _react2.default.createElement(
 	                    "select",
 	                    { className: "input-sm", value: this.state.location, onKeyDown: this.props.onKeyDown, onChange: function onChange(ev) {
-	                            _this4.setState({ location: ev.currentTarget.value });
+	                            _this3.setState({ location: ev.currentTarget.value });
 	                        } },
 	                    locations.map(function (location) {
 	                        return _react2.default.createElement(
@@ -51592,7 +51631,7 @@
 	              React.createElement(
 	                Link,
 	                { to: '/found' },
-	                'Report Found'
+	                'View Founds'
 	              )
 	            )
 	          ),
@@ -51885,7 +51924,6 @@
 	                          console.error(err);
 	                        }
 	                      }
-
 	                    })
 	                  )
 	                ),
@@ -72100,6 +72138,190 @@
 	  };
 	};
 
+
+/***/ }),
+/* 901 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactBootstrapTable = __webpack_require__(404);
+
+	var _LostItem = __webpack_require__(466);
+
+	var _LostItem2 = _interopRequireDefault(_LostItem);
+
+	var _ShowImageModal = __webpack_require__(241);
+
+	var _ShowImageModal2 = _interopRequireDefault(_ShowImageModal);
+
+	var _FoundModal = __webpack_require__(467);
+
+	var _FoundModal2 = _interopRequireDefault(_FoundModal);
+
+	var _CheckBox = __webpack_require__(468);
+
+	var _CheckBox2 = _interopRequireDefault(_CheckBox);
+
+	var _axios = __webpack_require__(469);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _LostList = __webpack_require__(402);
+
+	var _Nav = __webpack_require__(496);
+
+	var _Nav2 = _interopRequireDefault(_Nav);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var locations = ['Library', 'Cafeteria', 'Parking Lot', 'NAB', 'Lab', 'Bursar Office', 'Registrar Office'];
+
+
+	var createPriceEditor = function createPriceEditor(onUpdate, props) {
+	    return _react2.default.createElement(PriceEditor, _extends({ onUpdate: onUpdate }, props));
+	};
+
+	var FoundProductsTable = function (_React$Component) {
+	    _inherits(FoundProductsTable, _React$Component);
+
+	    function FoundProductsTable(props) {
+	        _classCallCheck(this, FoundProductsTable);
+
+	        var _this = _possibleConstructorReturn(this, (FoundProductsTable.__proto__ || Object.getPrototypeOf(FoundProductsTable)).call(this, props));
+
+	        var self = _this;
+
+	        _this.state = {
+	            isOpen: false,
+	            itemInfo: {},
+	            items: [{ id: 1, name: "Camera", found_location: "Library", picture: "camera.jpg", finder_name: "Rafael Nadal", finder_phone: "515-433-2223", finder_email: "syedadilimam93@gmail.com" }],
+	            itemsPro: []
+	        };
+	        return _this;
+	    }
+	    /*
+	    componentDidMount(){
+	          axios.get("http://localhost:8080/retrievelost").then((result)=>{
+	            this.setState({  isOpen: false,
+	                  itemInfo: {},
+	                  items: result.data});
+	          }).catch(function(error){
+	             console.log(error);
+	          });
+	    }
+	    */
+
+
+	    _createClass(FoundProductsTable, [{
+	        key: "priceFormatter",
+	        value: function priceFormatter(cell, row) {
+	            return "<div> $" + cell + " </div>";
+	        }
+	    }, {
+	        key: "toggleModal",
+	        value: function toggleModal(img, name, price, desc, lost_location, owner_name, owner_phone, evt) {
+	            evt.preventDefault();
+	            console.log(this);
+	            this.setState({ isOpen: true,
+	                itemInfo: {
+	                    image: img,
+	                    name: name,
+	                    reward_price: price,
+	                    description: desc,
+	                    lost_location: lost_location,
+	                    owner_name: owner_name,
+	                    owner_phone: owner_phone }
+	            });
+	        }
+	    }, {
+	        key: "closeModal",
+	        value: function closeModal(evt) {
+	            evt.preventDefault();
+	            this.setState({ isOpen: !this.state.isOpen, itemInfo: {}
+	            });
+	        }
+	    }, {
+	        key: "imageFormatter",
+	        value: function imageFormatter(cell, row) {
+	            return _react2.default.createElement(
+	                _LostItem2.default,
+	                _extends({}, row, { toggle: this.toggleModal.bind(this) }),
+	                " "
+	            );
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "div",
+	                null,
+	                _react2.default.createElement(_Nav2.default, null),
+	                _react2.default.createElement("br", null),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "container report-section" },
+	                    _react2.default.createElement(
+	                        _reactBootstrapTable.BootstrapTable,
+	                        { data: this.state.items, search: true, options: { clearSearch: true }, striped: true, hover: true, pagination: true },
+	                        _react2.default.createElement(
+	                            _reactBootstrapTable.TableHeaderColumn,
+	                            { dataField: "image", dataFormat: this.imageFormatter.bind(this), dataAlign: "center", isKey: true },
+	                            "   Item Picture "
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactBootstrapTable.TableHeaderColumn,
+	                            { dataField: "name", dataAlign: "center", dataSort: true },
+	                            " Item Name "
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactBootstrapTable.TableHeaderColumn,
+	                            { dataField: "found_location", dataAlign: "center" },
+	                            " Lost Location "
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactBootstrapTable.TableHeaderColumn,
+	                            { dataField: "finder_name", dataAlign: "center", editable: false },
+	                            " Finder Name "
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactBootstrapTable.TableHeaderColumn,
+	                            { dataField: "finder_phone", dataAlign: "center" },
+	                            " Finder Phone "
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactBootstrapTable.TableHeaderColumn,
+	                            { dataField: "finder_email", dataAlign: "center" },
+	                            " Finder Email "
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return FoundProductsTable;
+	}(_react2.default.Component);
+
+	var cellEditProp = {
+	    mode: 'click'
+	};
+
+	module.exports = FoundProductsTable;
 
 /***/ })
 /******/ ]);

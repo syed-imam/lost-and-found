@@ -18,11 +18,12 @@ class LostProductsTable extends React.Component {
         this.state = {
             isOpen: false,
             itemInfo: {},
-            items:[],
+            items:[{id:1, name:"Camera", description:"asdfdf", lost_location:"Library", reward_price:"343", picture:"camera.jpg", owner_name:"Rafael Nadal", owner_phone:"515-433-2223"}],
             itemsPro:[]
         };
     }
 
+    /*
     componentDidMount(){
           axios.get("http://localhost:8080/retrievelost").then((result)=>{
             this.setState({  isOpen: false,
@@ -32,6 +33,7 @@ class LostProductsTable extends React.Component {
              console.log(error);
           });
     }
+    */
 
     priceFormatter(cell, row){
         return `<div> $${cell} </div>`;
@@ -82,31 +84,68 @@ class LostProductsTable extends React.Component {
         return(<CheckBox {...row} save={this.saveItems.bind(this)} toggle={this.toggleModal.bind(this)}/>);
                 }
 
-    submitItems(){
-       console.log(this.state.itemsPro);
+    submitItems(e){
+      e.preventDefault();
+        if(this.state.itemsPro.length !=0)
+        {
+            console.log(this.refs.name.value);
+            console.log(this.refs.phone.value);
+            console.log(this.refs.email.value);
+            console.log(this.state.itemsPro);
+            //Ajax submit here, when request is completed, execute the following code on the callback
+
+            //Remove the element from the array and set state again
+            var itemsList=this.state.items;
+            console.log(itemsList);
+
+            for(var i=0;i<this.state.itemsPro.length;i++){
+                for(var j=0;j<itemsList.length;j++){
+                      if(itemsList[j].id === this.state.itemsPro[i]){
+                          console.log("true");
+                           itemsList.splice(j, 1);
+                      }
+                }
+            }
+            this.setState(
+                {isOpen: false,
+                itemInfo: {},
+                items: itemsList
+                });
+
+            //Reset refs values
+            this.refs.name.value='';
+            this.refs.phone.value='';
+            this.refs.email.value='';
+
+        }
+        else
+        {
+            alert("0 items have been selected");
+        }
     }
 
     render(){
-
         return(
            <div>
                 <ShowImageModal show={this.state.isOpen} close={this.closeModal.bind(this)} attributes={this.state.itemInfo}/>
-                <div className="form-group">
-                   <div className="row">
-                     <div className="col-md-3">
-                       <input type="text" placeholder="Full Name" className="form-control"/>
-                     </div>
-                    <div className="col-md-3">
-                       <input type="text" placeholder="XXX-XXX-XXXX" className="form-control"/>
-                    </div>
-                   <div className="col-md-4">
-                       <input type="email"  placeholder="Enter email" className="form-control"/>
+               <form onSubmit={this.submitItems.bind(this)}>
+                    <div className="form-group">
+                       <div className="row">
+                         <div className="col-md-3">
+                           <input type="text" placeholder="Full Name" ref="name" className="form-control" required={true}/>
+                         </div>
+                        <div className="col-md-3">
+                           <input type="phone" placeholder="XXX-XXX-XXXX" ref="phone" className="form-control" required={true}/>
+                        </div>
+                       <div className="col-md-4">
+                           <input type="email"  placeholder="Enter email" ref="email" className="form-control" required={true}/>
+                       </div>
+                       <div className="col-md-2">
+                           <button className="btn btn-primary">Found it!</button>
+                       </div>
+                       </div>
                    </div>
-                   <div className="col-md-2">
-                       <input type="button" className="btn btn-primary" onClick={this.submitItems.bind(this)} value="Found it!"></input>
-                   </div>
-                   </div>
-               </div>
+               </form>
                <br/>
                <BootstrapTable data={this.state.items} search={ true } options={{clearSearch: true}} striped={true} hover={true} cellEdit={cellEditProp}  pagination={true}>
                    <TableHeaderColumn dataAlign="center"  width='60' dataFormat={this.foundIt.bind(this)} editable={ false } ><i className="glyphicon glyphicon-search"></i> </TableHeaderColumn>

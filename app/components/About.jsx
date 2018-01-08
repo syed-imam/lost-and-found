@@ -142,9 +142,7 @@ render: function(){
                     <input type="text" ref="itemPrice" className="form-control" placeholder="Item Price" />
                   </div>
                 </div>
-                               
-               
-                
+
                 <div className="form-group">
                   <label htmlFor="inputEmail" className="col-lg-2 control-label">Owner Name</label>
                   <div className="col-lg-10">
@@ -170,7 +168,6 @@ render: function(){
                                   console.error(err);
                               }
                           }}
-
                       />
                   </div>
                 </div>

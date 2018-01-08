@@ -23,7 +23,7 @@ var Nav = React.createClass({
                  <Link to="/lost">Report Loss</Link>        
               </li>
               <li>
-                <Link to="/found">Report Found</Link>    
+                <Link to="/found">View Founds</Link>
               </li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
