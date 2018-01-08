@@ -4,6 +4,7 @@ import LostItem1 from "LostItem1";
 const locations = [ 'Library', 'Cafeteria', 'Parking Lot', 'NAB', 'Lab', 'Bursar Office', 'Registrar Office'];
 import ShowImageModal from 'ShowImageModal';
 import CheckBox from 'CheckBox';
+import axios from 'axios';
 
 const createPriceEditor = (onUpdate, props) => (<PriceEditor onUpdate={ onUpdate } {...props}/>);
 
@@ -13,14 +14,43 @@ class LostProductsTable extends React.Component {
         super(props);
         var self=this;
 
-          this.state = {
+        this.state = {
             isOpen: false,
-            itemInfo: {}
+            itemInfo: {},
+            items:[],
+            itemsPro:[]
         };
+    }
+
+    componentDidMount(){
+
+          axios.get("http://localhost:8080/retrievelost").then((result)=>{
+            this.setState({  isOpen: false,
+                  itemInfo: {},
+                  items: result.data});
+          }).catch(function(error){
+             console.log(error);
+          });
     }
 
     priceFormatter(cell, row){
         return `<div> $${cell} </div>`;
+    }
+
+    saveItems(id, value){
+
+        if(value){
+            var itemsA=this.state.itemsPro;
+            itemsA.push(id);
+            this.setState({itemsPro: itemsA});
+            console.log(this.state.itemsPro);
+        }
+        else{
+            var itemsA=this.state.itemsPro;
+            itemsA = itemsA.filter(item => item !== id);
+            this.setState({itemsPro: itemsA});
+            console.log(this.state.itemsPro);
+        }
     }
 
     toggleModal(img, name, price, desc, lost_location, owner_name, owner_phone, evt){
@@ -49,10 +79,10 @@ class LostProductsTable extends React.Component {
     }
 
     foundIt(cell, row){
-        return(<CheckBox {...row} toggle={this.toggleModal.bind(this)}/>);
+        return(<CheckBox {...row} save={this.saveItems.bind(this)} toggle={this.toggleModal.bind(this)}/>);
                 }
 
-    render() {
+    render(){
 
         var products= [{
             id:1,
@@ -157,9 +187,10 @@ class LostProductsTable extends React.Component {
 
         return(
            <div>
-               <ShowImageModal show={this.state.isOpen} close={this.closeModal.bind(this)} attributes={this.state.itemInfo}/>
-               <BootstrapTable data={products} search={ true } options={{clearSearch: true}} striped={true} hover={true} cellEdit={cellEditProp}  pagination={true}>
-                   <TableHeaderColumn dataAlign="center"  width='60' dataFormat={this.foundIt.bind(this)} editable={ false } ><i className="glyphicon glyphicon-search"></i>  </TableHeaderColumn>
+                <ShowImageModal show={this.state.isOpen} close={this.closeModal.bind(this)} attributes={this.state.itemInfo}/>
+                <input type="button" className="btn btn-primary" onClick={this.closeModal} value="Found it!"></input>
+                <BootstrapTable data={this.state.items} search={ true } options={{clearSearch: true}} striped={true} hover={true} cellEdit={cellEditProp}  pagination={true}>
+                   <TableHeaderColumn dataAlign="center"  width='60' dataFormat={this.foundIt.bind(this)} editable={ false } ><i className="glyphicon glyphicon-search"></i> </TableHeaderColumn>
                    <TableHeaderColumn dataField="image" dataFormat={this.imageFormatter.bind(this)}  dataAlign="center"  isKey={true}>   Item Picture </TableHeaderColumn>
                    <TableHeaderColumn dataField="name" dataAlign="center" dataSort={true}> Item Name </TableHeaderColumn>
                    <TableHeaderColumn dataField="reward_price" dataAlign="center" dataFormat={this.priceFormatter} dataSort={ true }> Reward Price </TableHeaderColumn>
@@ -167,7 +198,7 @@ class LostProductsTable extends React.Component {
                    <TableHeaderColumn dataField="lost_location" dataAlign="center"  editable={ { type: 'select', options: { values: locations } } }> Lost Location </TableHeaderColumn>
                    <TableHeaderColumn dataField="owner_name" dataAlign="center" editable={false}> Owner </TableHeaderColumn>
                    <TableHeaderColumn dataField="owner_phone" dataAlign="center"> Phone </TableHeaderColumn>
-           </BootstrapTable>
+                </BootstrapTable>
            </div>
         );
 

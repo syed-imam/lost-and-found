@@ -25431,8 +25431,8 @@
 	var ShowImageModal = __webpack_require__(241);
 	var Footer = __webpack_require__(401);
 	var LostList = __webpack_require__(402);
-	var Nav = __webpack_require__(470);
-	var axios = __webpack_require__(471);
+	var Nav = __webpack_require__(496);
+	var axios = __webpack_require__(469);
 	var lostReports = [];
 	var listItems;
 
@@ -35524,7 +35524,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var React = __webpack_require__(1);
-	var LostItem = __webpack_require__(469);
+	var LostItem = __webpack_require__(495);
 	var ShowImageModal = __webpack_require__(241);
 
 
@@ -35622,6 +35622,10 @@
 
 	var _CheckBox2 = _interopRequireDefault(_CheckBox);
 
+	var _axios = __webpack_require__(469);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -35649,15 +35653,48 @@
 
 	        _this.state = {
 	            isOpen: false,
-	            itemInfo: {}
+	            itemInfo: {},
+	            items: [],
+	            itemsPro: []
 	        };
 	        return _this;
 	    }
 
 	    _createClass(LostProductsTable, [{
+	        key: "componentDidMount",
+	        value: function componentDidMount() {
+	            var _this2 = this;
+
+	            _axios2.default.get("http://localhost:8080/retrievelost").then(function (result) {
+	                _this2.setState({ isOpen: false,
+	                    itemInfo: {},
+	                    items: result.data });
+	            }).catch(function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
 	        key: "priceFormatter",
 	        value: function priceFormatter(cell, row) {
 	            return "<div> $" + cell + " </div>";
+	        }
+	    }, {
+	        key: "saveItems",
+	        value: function saveItems(id, value) {
+
+	            if (value) {
+	                var itemsA = this.state.itemsPro;
+	                itemsA.push(id);
+	                this.setState({ itemsPro: itemsA });
+	                console.log(this.state.itemsPro);
+	            } else {
+	                var itemsA = this.state.itemsPro;
+	                itemsA = itemsA.filter(function (item) {
+	                    return item !== id;
+	                });
+	                this.setState({ itemsPro: itemsA });
+	                console.log(this.state.itemsPro);
+	            }
 	        }
 	    }, {
 	        key: "toggleModal",
@@ -35694,7 +35731,7 @@
 	    }, {
 	        key: "foundIt",
 	        value: function foundIt(cell, row) {
-	            return _react2.default.createElement(_CheckBox2.default, _extends({}, row, { toggle: this.toggleModal.bind(this) }));
+	            return _react2.default.createElement(_CheckBox2.default, _extends({}, row, { save: this.saveItems.bind(this), toggle: this.toggleModal.bind(this) }));
 	        }
 	    }, {
 	        key: "render",
@@ -35794,14 +35831,15 @@
 	                "div",
 	                null,
 	                _react2.default.createElement(_ShowImageModal2.default, { show: this.state.isOpen, close: this.closeModal.bind(this), attributes: this.state.itemInfo }),
+	                _react2.default.createElement("input", { type: "button", className: "btn btn-primary", onClick: this.closeModal, value: "Found it!" }),
 	                _react2.default.createElement(
 	                    _reactBootstrapTable.BootstrapTable,
-	                    { data: products, search: true, options: { clearSearch: true }, striped: true, hover: true, cellEdit: cellEditProp, pagination: true },
+	                    { data: this.state.items, search: true, options: { clearSearch: true }, striped: true, hover: true, cellEdit: cellEditProp, pagination: true },
 	                    _react2.default.createElement(
 	                        _reactBootstrapTable.TableHeaderColumn,
 	                        { dataAlign: "center", width: "60", dataFormat: this.foundIt.bind(this), editable: false },
 	                        _react2.default.createElement("i", { className: "glyphicon glyphicon-search" }),
-	                        "  "
+	                        " "
 	                    ),
 	                    _react2.default.createElement(
 	                        _reactBootstrapTable.TableHeaderColumn,
@@ -35856,11 +35894,11 @@
 	    function PriceEditor(props) {
 	        _classCallCheck(this, PriceEditor);
 
-	        var _this2 = _possibleConstructorReturn(this, (PriceEditor.__proto__ || Object.getPrototypeOf(PriceEditor)).call(this, props));
+	        var _this3 = _possibleConstructorReturn(this, (PriceEditor.__proto__ || Object.getPrototypeOf(PriceEditor)).call(this, props));
 
-	        _this2.updateData = _this2.updateData.bind(_this2);
-	        _this2.state = { amount: props.defaultValue.amount, location: props.defaultValue.location };
-	        return _this2;
+	        _this3.updateData = _this3.updateData.bind(_this3);
+	        _this3.state = { amount: props.defaultValue.amount, location: props.defaultValue.location };
+	        return _this3;
 	    }
 
 	    _createClass(PriceEditor, [{
@@ -35871,7 +35909,7 @@
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            var _this3 = this;
+	            var _this4 = this;
 
 	            return _react2.default.createElement(
 	                "div",
@@ -35879,7 +35917,7 @@
 	                _react2.default.createElement(
 	                    "select",
 	                    { className: "input-sm", value: this.state.location, onKeyDown: this.props.onKeyDown, onChange: function onChange(ev) {
-	                            _this3.setState({ location: ev.currentTarget.value });
+	                            _this4.setState({ location: ev.currentTarget.value });
 	                        } },
 	                    locations.map(function (location) {
 	                        return _react2.default.createElement(
@@ -49747,13 +49785,13 @@
 	            name = _props.name,
 	            description = _props.description,
 	            lost_location = _props.lost_location,
-	            image = _props.image,
+	            picture = _props.picture,
 	            reward_price = _props.reward_price,
 	            toggle = _props.toggle,
 	            owner_name = _props.owner_name,
 	            owner_phone = _props.owner_phone;
 
-	        var aws_picture = "https://s3.amazonaws.com/lost-and-found-bucket/" + image;
+	        var aws_picture = "https://s3.amazonaws.com/lost-and-found-bucket/" + picture;
 	        return React.createElement(
 	            'a',
 	            { href: '', onClick: function onClick(event) {
@@ -49802,7 +49840,7 @@
 
 	        var _this = _possibleConstructorReturn(this, (CheckBox.__proto__ || Object.getPrototypeOf(CheckBox)).call(this));
 
-	        _this.state = { item: props.item };
+	        _this.state = { items: [] };
 	        return _this;
 	    }
 
@@ -49812,9 +49850,24 @@
 	            return _react2.default.createElement(_FoundModal2.default, null);
 	        }
 	    }, {
+	        key: 'saveItem',
+	        value: function saveItem() {
+
+	            /*
+	            if(this.checked)
+	            {
+	                itemsArray.push(id);
+	                this.setState({items: itemsArray});
+	            }
+	            */
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+
 	            var _props = this.props,
+	                id = _props.id,
 	                name = _props.name,
 	                description = _props.description,
 	                lost_location = _props.lost_location,
@@ -49822,16 +49875,20 @@
 	                reward_price = _props.reward_price,
 	                toggle = _props.toggle,
 	                owner_name = _props.owner_name,
-	                owner_phone = _props.owner_phone;
+	                owner_phone = _props.owner_phone,
+	                save = _props.save;
 
 	            var aws_picture = "https://s3.amazonaws.com/lost-and-found-bucket/" + image;
+
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'checkbox' },
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
-	                    _react2.default.createElement('input', { id: 'checkbox', type: 'checkbox' }),
+	                    _react2.default.createElement('input', { id: 'checkbox', type: 'checkbox', ref: 'check', onChange: function onChange() {
+	                            return save(id, _this2.refs.check.checked);
+	                        } }),
 	                    _react2.default.createElement(
 	                        'span',
 	                        { className: 'cr' },
@@ -50012,74 +50069,7 @@
 /* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	var React = __webpack_require__(1);
-	var ShowImageModal = __webpack_require__(241);
-
-	var LostItem = React.createClass({
-	    displayName: 'LostItem',
-
-
-	    getInitialState: function getInitialState() {
-	        return {
-	            isOpen: false
-	        };
-	    },
-
-	    render: function render() {
-	        var _props = this.props,
-	            name = _props.name,
-	            description = _props.description,
-	            lost_location = _props.lost_location,
-	            image = _props.image,
-	            reward_price = _props.reward_price,
-	            toggle = _props.toggle,
-	            owner_name = _props.owner_name,
-	            owner_phone = _props.owner_phone;
-
-
-	        var aws_picture = "https://s3.amazonaws.com/lost-and-found-bucket/" + image;
-
-	        return React.createElement(
-	            'tr',
-	            null,
-	            React.createElement(
-	                'td',
-	                null,
-	                React.createElement(
-	                    'a',
-	                    { href: '', onClick: function onClick(event) {
-	                            return toggle(aws_picture, name, reward_price, description, lost_location, owner_name, owner_phone, event);
-	                        } },
-	                    React.createElement('img', { src: aws_picture })
-	                )
-	            ),
-	            React.createElement(
-	                'td',
-	                null,
-	                name
-	            ),
-	            React.createElement(
-	                'td',
-	                null,
-	                description
-	            ),
-	            React.createElement(
-	                'td',
-	                null,
-	                lost_location
-	            ),
-	            React.createElement(
-	                'td',
-	                null,
-	                '$',
-	                reward_price
-	            )
-	        );
-	    }
-	});
-	module.exports = LostItem;
+	module.exports = __webpack_require__(470);
 
 /***/ }),
 /* 470 */
@@ -50087,108 +50077,10 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-
-	var _require = __webpack_require__(159),
-	    Link = _require.Link;
-
-	var Nav = React.createClass({
-	  displayName: 'Nav',
-
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { className: 'navbar navbar-default navbar-fixed-top custom-nav' },
-	      React.createElement(
-	        'div',
-	        { className: 'container' },
-	        React.createElement(
-	          'div',
-	          { className: 'navbar-header' },
-	          React.createElement(
-	            'a',
-	            { href: '../', className: 'navbar-brand pull-left logo' },
-	            React.createElement('img', { src: '../assets/img/lostandfound.png', height: '50px', width: 'auto' })
-	          ),
-	          React.createElement(
-	            'button',
-	            { className: 'navbar-toggle', type: 'button', 'data-toggle': 'collapse', 'data-target': '#navbar-main' },
-	            React.createElement('span', { className: 'icon-bar' }),
-	            React.createElement('span', { className: 'icon-bar' }),
-	            React.createElement('span', { className: 'icon-bar' })
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'navbar-collapse collapse', id: 'navbar-main' },
-	          React.createElement(
-	            'ul',
-	            { className: 'nav navbar-nav' },
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                Link,
-	                { to: '/' },
-	                ' View Loss Reports'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                Link,
-	                { to: '/lost' },
-	                'Report Loss'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                Link,
-	                { to: '/found' },
-	                'Report Found'
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            'ul',
-	            { className: 'nav navbar-nav navbar-right' },
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: 'http://syedadilimam.com/', target: '_blank' },
-	                'Author'
-	              )
-	            )
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-
-	module.exports = Nav;
-
-/***/ }),
-/* 471 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(472);
-
-/***/ }),
-/* 472 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var utils = __webpack_require__(473);
-	var bind = __webpack_require__(474);
-	var Axios = __webpack_require__(476);
-	var defaults = __webpack_require__(477);
+	var utils = __webpack_require__(471);
+	var bind = __webpack_require__(472);
+	var Axios = __webpack_require__(474);
+	var defaults = __webpack_require__(475);
 
 	/**
 	 * Create an instance of Axios
@@ -50221,15 +50113,15 @@
 	};
 
 	// Expose Cancel & CancelToken
-	axios.Cancel = __webpack_require__(494);
-	axios.CancelToken = __webpack_require__(495);
-	axios.isCancel = __webpack_require__(491);
+	axios.Cancel = __webpack_require__(492);
+	axios.CancelToken = __webpack_require__(493);
+	axios.isCancel = __webpack_require__(489);
 
 	// Expose all/spread
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(496);
+	axios.spread = __webpack_require__(494);
 
 	module.exports = axios;
 
@@ -50238,13 +50130,13 @@
 
 
 /***/ }),
-/* 473 */
+/* 471 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var bind = __webpack_require__(474);
-	var isBuffer = __webpack_require__(475);
+	var bind = __webpack_require__(472);
+	var isBuffer = __webpack_require__(473);
 
 	/*global toString:true*/
 
@@ -50547,7 +50439,7 @@
 
 
 /***/ }),
-/* 474 */
+/* 472 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -50564,7 +50456,7 @@
 
 
 /***/ }),
-/* 475 */
+/* 473 */
 /***/ (function(module, exports) {
 
 	/*!
@@ -50591,17 +50483,17 @@
 
 
 /***/ }),
-/* 476 */
+/* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(477);
-	var utils = __webpack_require__(473);
-	var InterceptorManager = __webpack_require__(488);
-	var dispatchRequest = __webpack_require__(489);
-	var isAbsoluteURL = __webpack_require__(492);
-	var combineURLs = __webpack_require__(493);
+	var defaults = __webpack_require__(475);
+	var utils = __webpack_require__(471);
+	var InterceptorManager = __webpack_require__(486);
+	var dispatchRequest = __webpack_require__(487);
+	var isAbsoluteURL = __webpack_require__(490);
+	var combineURLs = __webpack_require__(491);
 
 	/**
 	 * Create a new instance of Axios
@@ -50683,13 +50575,13 @@
 
 
 /***/ }),
-/* 477 */
+/* 475 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(473);
-	var normalizeHeaderName = __webpack_require__(478);
+	var utils = __webpack_require__(471);
+	var normalizeHeaderName = __webpack_require__(476);
 
 	var DEFAULT_CONTENT_TYPE = {
 	  'Content-Type': 'application/x-www-form-urlencoded'
@@ -50705,10 +50597,10 @@
 	  var adapter;
 	  if (typeof XMLHttpRequest !== 'undefined') {
 	    // For browsers use XHR adapter
-	    adapter = __webpack_require__(479);
+	    adapter = __webpack_require__(477);
 	  } else if (typeof process !== 'undefined') {
 	    // For node use HTTP adapter
-	    adapter = __webpack_require__(479);
+	    adapter = __webpack_require__(477);
 	  }
 	  return adapter;
 	}
@@ -50782,12 +50674,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 478 */
+/* 476 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(473);
+	var utils = __webpack_require__(471);
 
 	module.exports = function normalizeHeaderName(headers, normalizedName) {
 	  utils.forEach(headers, function processHeader(value, name) {
@@ -50800,18 +50692,18 @@
 
 
 /***/ }),
-/* 479 */
+/* 477 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(473);
-	var settle = __webpack_require__(480);
-	var buildURL = __webpack_require__(483);
-	var parseHeaders = __webpack_require__(484);
-	var isURLSameOrigin = __webpack_require__(485);
-	var createError = __webpack_require__(481);
-	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(486);
+	var utils = __webpack_require__(471);
+	var settle = __webpack_require__(478);
+	var buildURL = __webpack_require__(481);
+	var parseHeaders = __webpack_require__(482);
+	var isURLSameOrigin = __webpack_require__(483);
+	var createError = __webpack_require__(479);
+	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(484);
 
 	module.exports = function xhrAdapter(config) {
 	  return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -50908,7 +50800,7 @@
 	    // This is only done if running in a standard browser environment.
 	    // Specifically not if we're in a web worker, or react-native.
 	    if (utils.isStandardBrowserEnv()) {
-	      var cookies = __webpack_require__(487);
+	      var cookies = __webpack_require__(485);
 
 	      // Add xsrf header
 	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -50987,12 +50879,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 480 */
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var createError = __webpack_require__(481);
+	var createError = __webpack_require__(479);
 
 	/**
 	 * Resolve or reject a Promise based on response status.
@@ -51019,12 +50911,12 @@
 
 
 /***/ }),
-/* 481 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var enhanceError = __webpack_require__(482);
+	var enhanceError = __webpack_require__(480);
 
 	/**
 	 * Create an Error with the specified message, config, error code, request and response.
@@ -51043,7 +50935,7 @@
 
 
 /***/ }),
-/* 482 */
+/* 480 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -51070,12 +50962,12 @@
 
 
 /***/ }),
-/* 483 */
+/* 481 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(473);
+	var utils = __webpack_require__(471);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -51144,12 +51036,12 @@
 
 
 /***/ }),
-/* 484 */
+/* 482 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(473);
+	var utils = __webpack_require__(471);
 
 	/**
 	 * Parse headers into an object
@@ -51187,12 +51079,12 @@
 
 
 /***/ }),
-/* 485 */
+/* 483 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(473);
+	var utils = __webpack_require__(471);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -51261,7 +51153,7 @@
 
 
 /***/ }),
-/* 486 */
+/* 484 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -51303,12 +51195,12 @@
 
 
 /***/ }),
-/* 487 */
+/* 485 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(473);
+	var utils = __webpack_require__(471);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -51362,12 +51254,12 @@
 
 
 /***/ }),
-/* 488 */
+/* 486 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(473);
+	var utils = __webpack_require__(471);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -51420,15 +51312,15 @@
 
 
 /***/ }),
-/* 489 */
+/* 487 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(473);
-	var transformData = __webpack_require__(490);
-	var isCancel = __webpack_require__(491);
-	var defaults = __webpack_require__(477);
+	var utils = __webpack_require__(471);
+	var transformData = __webpack_require__(488);
+	var isCancel = __webpack_require__(489);
+	var defaults = __webpack_require__(475);
 
 	/**
 	 * Throws a `Cancel` if cancellation has been requested.
@@ -51505,12 +51397,12 @@
 
 
 /***/ }),
-/* 490 */
+/* 488 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(473);
+	var utils = __webpack_require__(471);
 
 	/**
 	 * Transform the data for a request or a response
@@ -51531,7 +51423,7 @@
 
 
 /***/ }),
-/* 491 */
+/* 489 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -51542,7 +51434,7 @@
 
 
 /***/ }),
-/* 492 */
+/* 490 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -51562,7 +51454,7 @@
 
 
 /***/ }),
-/* 493 */
+/* 491 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -51582,7 +51474,7 @@
 
 
 /***/ }),
-/* 494 */
+/* 492 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -51607,12 +51499,12 @@
 
 
 /***/ }),
-/* 495 */
+/* 493 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Cancel = __webpack_require__(494);
+	var Cancel = __webpack_require__(492);
 
 	/**
 	 * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -51670,7 +51562,7 @@
 
 
 /***/ }),
-/* 496 */
+/* 494 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -51703,6 +51595,171 @@
 
 
 /***/ }),
+/* 495 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var ShowImageModal = __webpack_require__(241);
+
+	var LostItem = React.createClass({
+	    displayName: 'LostItem',
+
+
+	    getInitialState: function getInitialState() {
+	        return {
+	            isOpen: false
+	        };
+	    },
+
+	    render: function render() {
+	        var _props = this.props,
+	            name = _props.name,
+	            description = _props.description,
+	            lost_location = _props.lost_location,
+	            image = _props.image,
+	            reward_price = _props.reward_price,
+	            toggle = _props.toggle,
+	            owner_name = _props.owner_name,
+	            owner_phone = _props.owner_phone;
+
+
+	        var aws_picture = "https://s3.amazonaws.com/lost-and-found-bucket/" + image;
+
+	        return React.createElement(
+	            'tr',
+	            null,
+	            React.createElement(
+	                'td',
+	                null,
+	                React.createElement(
+	                    'a',
+	                    { href: '', onClick: function onClick(event) {
+	                            return toggle(aws_picture, name, reward_price, description, lost_location, owner_name, owner_phone, event);
+	                        } },
+	                    React.createElement('img', { src: aws_picture })
+	                )
+	            ),
+	            React.createElement(
+	                'td',
+	                null,
+	                name
+	            ),
+	            React.createElement(
+	                'td',
+	                null,
+	                description
+	            ),
+	            React.createElement(
+	                'td',
+	                null,
+	                lost_location
+	            ),
+	            React.createElement(
+	                'td',
+	                null,
+	                '$',
+	                reward_price
+	            )
+	        );
+	    }
+	});
+	module.exports = LostItem;
+
+/***/ }),
+/* 496 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var _require = __webpack_require__(159),
+	    Link = _require.Link;
+
+	var Nav = React.createClass({
+	  displayName: 'Nav',
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'navbar navbar-default navbar-fixed-top custom-nav' },
+	      React.createElement(
+	        'div',
+	        { className: 'container' },
+	        React.createElement(
+	          'div',
+	          { className: 'navbar-header' },
+	          React.createElement(
+	            'a',
+	            { href: '../', className: 'navbar-brand pull-left logo' },
+	            React.createElement('img', { src: '../assets/img/lostandfound.png', height: '50px', width: 'auto' })
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'navbar-toggle', type: 'button', 'data-toggle': 'collapse', 'data-target': '#navbar-main' },
+	            React.createElement('span', { className: 'icon-bar' }),
+	            React.createElement('span', { className: 'icon-bar' }),
+	            React.createElement('span', { className: 'icon-bar' })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'navbar-collapse collapse', id: 'navbar-main' },
+	          React.createElement(
+	            'ul',
+	            { className: 'nav navbar-nav' },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: '/' },
+	                ' View Loss Reports'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: '/lost' },
+	                'Report Loss'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: '/found' },
+	                'Report Found'
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'nav navbar-nav navbar-right' },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: 'http://syedadilimam.com/', target: '_blank' },
+	                'Author'
+	              )
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Nav;
+
+/***/ }),
 /* 497 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -51723,8 +51780,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Footer = __webpack_require__(401);
-	var Nav = __webpack_require__(470);
-	var axios = __webpack_require__(471);
+	var Nav = __webpack_require__(496);
+	var axios = __webpack_require__(469);
 
 
 	var About = _react2.default.createClass({
