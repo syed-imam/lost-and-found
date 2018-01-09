@@ -51690,86 +51690,59 @@
 	      itemDesc: '',
 	      lostLocation: '',
 	      itemPrice: '',
-	      images: ''
+	      image: ''
 	    };
 	  },
 	  handleForm: function handleForm(e) {
 	    (0, _LoadingComponent2.default)();
 	    e.preventDefault();
-	    console.log(this.state.images);
+	    console.log(this.state.image);
 
-	    axios.post("http://localhost:9090/uploadToS3", { image: this.state.images }).then(function (data) {});
-
-	    //I ll make a request here to upload images!!
+	    axios.post("http://localhost:9090/uploadToS3", { image: this.state.image }).then(function (data) {
+	      console.log(data);
+	    });
 
 	    /*
-	     var name=this.refs.itemName.value;
-	     var desc=this.refs.itemDesc.value;    
-	     var lostLocation=this.refs.lostLocation.value; 
-	     var itemPrice=this.refs.itemPrice.value;
-	     var ownerName=this.refs.ownerName.value;
-	     var ownerPhone=this.refs.ownerPhone.value;    
-	     var itemPicture=this.refs.itemPicture.files[0];  //this is an image file
-	    
-	     this.clearFunction();
-	       
-	       console.log(name);
-	       console.log(desc);
-	       console.log(lostLocation);
-	       console.log(itemPrice);
-	       console.log(itemPicture);
-	    
+	      //I ll make a request here to upload images!!
+	    var name = this.refs.itemName.value;
+	    var desc = this.refs.itemDesc.value;
+	    var lostLocation = this.refs.lostLocation.value;
+	    var itemPrice = this.refs.itemPrice.value;
+	    var ownerName = this.refs.ownerName.value;
+	    var ownerPhone = this.refs.ownerPhone.value;
+	    var itemPicture = this.state.images;  //this is an image file
+	      this.clearFunction();
+	      console.log(name);
+	    console.log(desc);
+	    console.log(lostLocation);
+	    console.log(itemPrice);
+	    console.log(itemPicture);
 	    //this inside of this doesnt know what it is    
 	    this.setState({
-	       itemName:name,
-	       itemDesc:desc,   
-	       itemPrice:itemPrice,
-	       lostLocation:lostLocation,
-	       ownerName:ownerName,
-	       ownerPhone:ownerPhone     
-	     }, function(){  
-	     //ajax this info
-	       var data = new FormData();
-	       data.append('file', itemPicture);
-	       const config1 = {
-	               headers: {'content-type': 'multipart/form-data'}   //it has to be multipart form data
-	           }
-	         const url ='http://localhost:8080/upload/';
-	       
-	       var data2=this.state;
-	      
-	         axios.post(url, data, config1)
-	               .then(function(response){            
-	                    // console.log(response);
-	                      const config2 = {
-	                         headers: {'content-type': 'application/json'}   //it has to be multipart form data
-	                      }
-	    
-	        
-	       const url1 ='http://localhost:8080/lostdata/';
-	     
-	       axios.post(url1,data2,config2)
-	               .then(function(response){
-	    
-	                   console.log(response);
-	                   LoadingComponent();
-	               })
-	               .catch(function(error) {
-	                   console.log(error);
-	                   LoadingComponent();
-	               });     
-	         
-	            }).catch(function(error) {
-	                   console.log(error);
-	                   LoadingComponent();
-	               });
-	       
-	       console.log(this.state);
-	    });  */
+	        itemName: name,
+	        itemDesc: desc,
+	        itemPrice: itemPrice,
+	        lostLocation: lostLocation,
+	        ownerName: ownerName,
+	        ownerPhone: ownerPhone
+	    }, function () {
+	          const config2 = {
+	            headers: {'content-type': 'application/json'}   //it has to be multipart form data
+	        }
+	        const url1 = 'http://localhost:8080/lostdata/';
+	        var data2 = this.state;
+	          axios.post(url1, data2, config2)
+	            .then(function (response) {
+	                console.log(response);
+	              })
+	            .catch(function (error) {
+	                console.log(error);
+	                LoadingComponent();
+	            });
 	    //this.setState is asynchronous
+	    });
+	      */
 	  },
-
-	  uploadPhotoToS3: function uploadPhotoToS3() {},
 
 	  clearFunction: function clearFunction() {
 	    this.refs.itemName.value = '';
@@ -51932,14 +51905,14 @@
 	                  _react2.default.createElement(
 	                    'div',
 	                    { className: 'col-lg-10' },
-	                    _react2.default.createElement(_reactImagesUploader2.default, { url: 'http://localhost:9090/multiple',
+	                    _react2.default.createElement(_reactImagesUploader2.default, { url: 'http://localhost:9090/upload',
 	                      optimisticPreviews: true,
-	                      multiple: true,
+	                      multiple: false,
 	                      onLoadEnd: function onLoadEnd(err, string) {
 	                        if (err) {
 	                          console.error(err);
 	                        }
-	                        _this.state.images = string[0];
+	                        _this.state.image = string;
 	                      }
 	                    })
 	                  )

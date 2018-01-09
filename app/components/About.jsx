@@ -13,21 +13,21 @@ getInitialState: function(){
         itemDesc:'',
         lostLocation:'',
         itemPrice:'',
-        images:''
+        image:''
     }    
 },    
 handleForm: function(e) {
     LoadingComponent();
     e.preventDefault();
-    console.log(this.state.images);
+    console.log(this.state.image);
 
-    axios.post("http://localhost:9090/uploadToS3", {image: this.state.images}).then(function (data) {
+    axios.post("http://localhost:9090/uploadToS3", {image: this.state.image}).then(function (data) {
         console.log(data);
     });
 
+    /*
 
     //I ll make a request here to upload images!!
-
     var name = this.refs.itemName.value;
     var desc = this.refs.itemDesc.value;
     var lostLocation = this.refs.lostLocation.value;
@@ -53,21 +53,7 @@ handleForm: function(e) {
         ownerName: ownerName,
         ownerPhone: ownerPhone
     }, function () {
-        //ajax this info
-        /* var data = new FormData();
-         data.append('file', itemPicture);
-         const config1 = {
-                 headers: {'content-type': 'multipart/form-data'}   //it has to be multipart form data
-             }
-           const url ='http://localhost:8080/upload/';
 
-
-           axios.post(url, data, config1)
-                 .then(function(response){
-                      // console.log(response);
-
-
-        */
         const config2 = {
             headers: {'content-type': 'application/json'}   //it has to be multipart form data
         }
@@ -86,6 +72,8 @@ handleForm: function(e) {
 
 //this.setState is asynchronous
     });
+
+    */
 },
 
 clearFunction:function(){
@@ -167,7 +155,7 @@ render: function(){
                               if (err) {
                                   console.error(err);
                               }
-                                this.state.images=string[0];
+                                this.state.image=string;
                           }}
                       />
                   </div>
