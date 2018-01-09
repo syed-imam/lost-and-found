@@ -13,24 +13,31 @@ getInitialState: function(){
         itemDesc:'',
         lostLocation:'',
         itemPrice:'',
-        images:[]
+        images:''
     }    
 },    
-handleForm: function(e){
-  LoadingComponent();
-  e.preventDefault();
-  console.log(this.state.images);
- /*
-  var name=this.refs.itemName.value;
-  var desc=this.refs.itemDesc.value;    
-  var lostLocation=this.refs.lostLocation.value; 
-  var itemPrice=this.refs.itemPrice.value;
-  var ownerName=this.refs.ownerName.value;
-  var ownerPhone=this.refs.ownerPhone.value;    
-  var itemPicture=this.refs.itemPicture.files[0];  //this is an image file
+handleForm: function(e) {
+    LoadingComponent();
+    e.preventDefault();
+    console.log(this.state.images);
 
-  this.clearFunction();
-    
+    axios.post("http://localhost:9090/uploadToS3", {image: this.state.images}).then(function (data) {
+        console.log(data);
+    });
+
+
+    //I ll make a request here to upload images!!
+
+    var name = this.refs.itemName.value;
+    var desc = this.refs.itemDesc.value;
+    var lostLocation = this.refs.lostLocation.value;
+    var itemPrice = this.refs.itemPrice.value;
+    var ownerName = this.refs.ownerName.value;
+    var ownerPhone = this.refs.ownerPhone.value;
+    var itemPicture = this.state.images;  //this is an image file
+
+    this.clearFunction();
+
     console.log(name);
     console.log(desc);
     console.log(lostLocation);
@@ -38,60 +45,49 @@ handleForm: function(e){
     console.log(itemPicture);
 
 //this inside of this doesnt know what it is    
-this.setState({
-    itemName:name,
-    itemDesc:desc,   
-    itemPrice:itemPrice,
-    lostLocation:lostLocation,
-    ownerName:ownerName,
-    ownerPhone:ownerPhone     
-  }, function(){  
-  //ajax this info
-    var data = new FormData();
-    data.append('file', itemPicture);
-    const config1 = {
-            headers: {'content-type': 'multipart/form-data'}   //it has to be multipart form data
+    this.setState({
+        itemName: name,
+        itemDesc: desc,
+        itemPrice: itemPrice,
+        lostLocation: lostLocation,
+        ownerName: ownerName,
+        ownerPhone: ownerPhone
+    }, function () {
+        //ajax this info
+        /* var data = new FormData();
+         data.append('file', itemPicture);
+         const config1 = {
+                 headers: {'content-type': 'multipart/form-data'}   //it has to be multipart form data
+             }
+           const url ='http://localhost:8080/upload/';
+
+
+           axios.post(url, data, config1)
+                 .then(function(response){
+                      // console.log(response);
+
+
+        */
+        const config2 = {
+            headers: {'content-type': 'application/json'}   //it has to be multipart form data
         }
-      const url ='http://localhost:8080/upload/';
-    
-    var data2=this.state;
-   
-      axios.post(url, data, config1)
-            .then(function(response){            
-                 // console.log(response);
-                   const config2 = {
-                      headers: {'content-type': 'application/json'}   //it has to be multipart form data
-                   }
+        const url1 = 'http://localhost:8080/lostdata/';
+        var data2 = this.state;
 
-     
-    const url1 ='http://localhost:8080/lostdata/';
-  
-    axios.post(url1,data2,config2)
-            .then(function(response){
-
+        axios.post(url1, data2, config2)
+            .then(function (response) {
                 console.log(response);
-                LoadingComponent();
+
             })
-            .catch(function(error) {
-                console.log(error);
-                LoadingComponent();
-            });     
-      
-         }).catch(function(error) {
+            .catch(function (error) {
                 console.log(error);
                 LoadingComponent();
             });
-    
-    console.log(this.state);
-});  */
+
 //this.setState is asynchronous
+    });
 },
-    
-uploadPhotoToS3:function(){
-    
-    
-},
-    
+
 clearFunction:function(){
   this.refs.itemName.value='';
   this.refs.itemDesc.value='';    
@@ -164,13 +160,14 @@ render: function(){
                  <div className="form-group">
                   <label htmlFor="inputEmail" className="col-lg-2 control-label">Item Picture</label>
                   <div className="col-lg-10">
-                   <ImagesUploader url="http://localhost:9090/multiple"
+                   <ImagesUploader url="http://localhost:9090/upload"
                           optimisticPreviews={true}
-                          multiple={true}
-                          onLoadEnd={(err) => {
+                          multiple={false}
+                          onLoadEnd={(err , string) => {
                               if (err) {
                                   console.error(err);
                               }
+                                this.state.images=string[0];
                           }}
                       />
                   </div>

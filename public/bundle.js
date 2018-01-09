@@ -51690,13 +51690,18 @@
 	      itemDesc: '',
 	      lostLocation: '',
 	      itemPrice: '',
-	      images: []
+	      images: ''
 	    };
 	  },
 	  handleForm: function handleForm(e) {
 	    (0, _LoadingComponent2.default)();
 	    e.preventDefault();
 	    console.log(this.state.images);
+
+	    axios.post("http://localhost:9090/uploadToS3", { image: this.state.images }).then(function (data) {});
+
+	    //I ll make a request here to upload images!!
+
 	    /*
 	     var name=this.refs.itemName.value;
 	     var desc=this.refs.itemDesc.value;    
@@ -51775,6 +51780,8 @@
 	    this.refs.ownerPhone.value = '';
 	  },
 	  render: function render() {
+	    var _this = this;
+
 	    return _react2.default.createElement(
 	      'div',
 	      null,
@@ -51928,12 +51935,12 @@
 	                    _react2.default.createElement(_reactImagesUploader2.default, { url: 'http://localhost:9090/multiple',
 	                      optimisticPreviews: true,
 	                      multiple: true,
-	                      onLoadEnd: function onLoadEnd(err) {
+	                      onLoadEnd: function onLoadEnd(err, string) {
 	                        if (err) {
 	                          console.error(err);
 	                        }
-	                      },
-	                      images: this.state.images
+	                        _this.state.images = string[0];
+	                      }
 	                    })
 	                  )
 	                ),
