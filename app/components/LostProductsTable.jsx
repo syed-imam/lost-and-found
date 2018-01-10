@@ -23,7 +23,7 @@ class LostProductsTable extends React.Component {
         };
     }
 
-    /*
+
     componentDidMount(){
           axios.get("http://localhost:8080/retrievelost").then((result)=>{
             this.setState({  isOpen: false,
@@ -33,7 +33,7 @@ class LostProductsTable extends React.Component {
              console.log(error);
           });
     }
-    */
+
 
     priceFormatter(cell, row){
         return `<div> $${cell} </div>`;
@@ -88,12 +88,15 @@ class LostProductsTable extends React.Component {
       e.preventDefault();
         if(this.state.itemsPro.length !=0)
         {
-            console.log(this.refs.name.value);
-            console.log(this.refs.phone.value);
-            console.log(this.refs.email.value);
-            console.log(this.state.itemsPro);
+            var payload={owner_name:this.refs.name.value, owner_phone:this.refs.phone.value, owner_email: this.refs.email.value, items:this.state.itemsPro}
             //Ajax submit here, when request is completed, execute the following code on the callback
-
+            const config = {
+                headers: {'content-type': 'application/json'}   //it has to be multipart form data
+            }
+            axios.post("http://localhost:8080/founddata", payload, config).then(function(data){
+                    console.log(data);
+            }).catch(function(error){
+            });
             //Remove the element from the array and set state again
             var itemsList=this.state.items;
             console.log(itemsList);
@@ -101,7 +104,6 @@ class LostProductsTable extends React.Component {
             for(var i=0;i<this.state.itemsPro.length;i++){
                 for(var j=0;j<itemsList.length;j++){
                       if(itemsList[j].id === this.state.itemsPro[i]){
-                          console.log("true");
                            itemsList.splice(j, 1);
                       }
                 }

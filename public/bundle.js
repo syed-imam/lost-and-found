@@ -57,14 +57,14 @@
 
 	var Main = __webpack_require__(222);
 	var About = __webpack_require__(497);
-	var FoundProductsTable = __webpack_require__(901);
+	var FoundProductsTable = __webpack_require__(902);
 
 	ReactDOM.render(React.createElement(
-	  Router,
-	  { history: hashHistory },
-	  React.createElement(Route, { path: '/', component: Main }),
-	  React.createElement(Route, { path: 'lost', component: About }),
-	  React.createElement(Route, { path: 'found', component: FoundProductsTable })
+	   Router,
+	   { history: hashHistory },
+	   React.createElement(Route, { path: '/', component: Main }),
+	   React.createElement(Route, { path: 'lost', component: About }),
+	   React.createElement(Route, { path: 'found', component: FoundProductsTable })
 	), document.getElementById('app'));
 
 /***/ }),
@@ -35666,19 +35666,20 @@
 	        return _this;
 	    }
 
-	    /*
-	    componentDidMount(){
-	          axios.get("http://localhost:8080/retrievelost").then((result)=>{
-	            this.setState({  isOpen: false,
-	                  itemInfo: {},
-	                  items: result.data});
-	          }).catch(function(error){
-	             console.log(error);
-	          });
-	    }
-	    */
-
 	    _createClass(LostProductsTable, [{
+	        key: "componentDidMount",
+	        value: function componentDidMount() {
+	            var _this2 = this;
+
+	            _axios2.default.get("http://localhost:8080/retrievelost").then(function (result) {
+	                _this2.setState({ isOpen: false,
+	                    itemInfo: {},
+	                    items: result.data });
+	            }).catch(function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
 	        key: "priceFormatter",
 	        value: function priceFormatter(cell, row) {
 	            return "<div> $" + cell + " </div>";
@@ -35742,12 +35743,14 @@
 	        value: function submitItems(e) {
 	            e.preventDefault();
 	            if (this.state.itemsPro.length != 0) {
-	                console.log(this.refs.name.value);
-	                console.log(this.refs.phone.value);
-	                console.log(this.refs.email.value);
-	                console.log(this.state.itemsPro);
-	                //Ajax submit here, when request is completed, execute the following code on the callback
-
+	                var payload = { owner_name: this.refs.name.value, owner_phone: this.refs.phone.value, owner_email: this.refs.email.value, items: this.state.itemsPro
+	                    //Ajax submit here, when request is completed, execute the following code on the callback
+	                };var config = {
+	                    headers: { 'content-type': 'application/json' //it has to be multipart form data
+	                    } };
+	                _axios2.default.post("http://localhost:8080/founddata", payload, config).then(function (data) {
+	                    console.log(data);
+	                }).catch(function (error) {});
 	                //Remove the element from the array and set state again
 	                var itemsList = this.state.items;
 	                console.log(itemsList);
@@ -35755,7 +35758,6 @@
 	                for (var i = 0; i < this.state.itemsPro.length; i++) {
 	                    for (var j = 0; j < itemsList.length; j++) {
 	                        if (itemsList[j].id === this.state.itemsPro[i]) {
-	                            console.log("true");
 	                            itemsList.splice(j, 1);
 	                        }
 	                    }
@@ -35879,11 +35881,11 @@
 	    function PriceEditor(props) {
 	        _classCallCheck(this, PriceEditor);
 
-	        var _this2 = _possibleConstructorReturn(this, (PriceEditor.__proto__ || Object.getPrototypeOf(PriceEditor)).call(this, props));
+	        var _this3 = _possibleConstructorReturn(this, (PriceEditor.__proto__ || Object.getPrototypeOf(PriceEditor)).call(this, props));
 
-	        _this2.updateData = _this2.updateData.bind(_this2);
-	        _this2.state = { amount: props.defaultValue.amount, location: props.defaultValue.location };
-	        return _this2;
+	        _this3.updateData = _this3.updateData.bind(_this3);
+	        _this3.state = { amount: props.defaultValue.amount, location: props.defaultValue.location };
+	        return _this3;
 	    }
 
 	    _createClass(PriceEditor, [{
@@ -35894,7 +35896,7 @@
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            var _this3 = this;
+	            var _this4 = this;
 
 	            return _react2.default.createElement(
 	                "div",
@@ -35902,7 +35904,7 @@
 	                _react2.default.createElement(
 	                    "select",
 	                    { className: "input-sm", value: this.state.location, onKeyDown: this.props.onKeyDown, onChange: function onChange(ev) {
-	                            _this3.setState({ location: ev.currentTarget.value });
+	                            _this4.setState({ location: ev.currentTarget.value });
 	                        } },
 	                    locations.map(function (location) {
 	                        return _react2.default.createElement(
@@ -51679,10 +51681,11 @@
 	var Footer = __webpack_require__(401);
 	var Nav = __webpack_require__(496);
 	var axios = __webpack_require__(469);
-
+	var path = __webpack_require__(901);
 
 	var About = _react2.default.createClass({
 	  displayName: 'About',
+
 
 	  getInitialState: function getInitialState() {
 	    return {
@@ -51694,54 +51697,42 @@
 	    };
 	  },
 	  handleForm: function handleForm(e) {
-	    (0, _LoadingComponent2.default)();
 	    e.preventDefault();
-	    console.log(this.state.image);
-
 	    axios.post("http://localhost:9090/uploadToS3", { image: this.state.image }).then(function (data) {
 	      console.log(data);
 	    });
-
-	    /*
-	      //I ll make a request here to upload images!!
+	    //I ll make a request here to upload images!!
 	    var name = this.refs.itemName.value;
 	    var desc = this.refs.itemDesc.value;
 	    var lostLocation = this.refs.lostLocation.value;
 	    var itemPrice = this.refs.itemPrice.value;
 	    var ownerName = this.refs.ownerName.value;
 	    var ownerPhone = this.refs.ownerPhone.value;
-	    var itemPicture = this.state.images;  //this is an image file
-	      this.clearFunction();
-	      console.log(name);
-	    console.log(desc);
-	    console.log(lostLocation);
-	    console.log(itemPrice);
-	    console.log(itemPicture);
-	    //this inside of this doesnt know what it is    
+	    var itemPicture = this.state.images; //this is an image file
+
+	    this.clearFunction();
+	    //this inside of this doesnt know what it is
 	    this.setState({
-	        itemName: name,
-	        itemDesc: desc,
-	        itemPrice: itemPrice,
-	        lostLocation: lostLocation,
-	        ownerName: ownerName,
-	        ownerPhone: ownerPhone
+	      itemName: name,
+	      itemDesc: desc,
+	      itemPrice: itemPrice,
+	      lostLocation: lostLocation,
+	      ownerName: ownerName,
+	      ownerPhone: ownerPhone,
+	      image: path.basename(this.state.image)
 	    }, function () {
-	          const config2 = {
-	            headers: {'content-type': 'application/json'}   //it has to be multipart form data
-	        }
-	        const url1 = 'http://localhost:8080/lostdata/';
-	        var data2 = this.state;
-	          axios.post(url1, data2, config2)
-	            .then(function (response) {
-	                console.log(response);
-	              })
-	            .catch(function (error) {
-	                console.log(error);
-	                LoadingComponent();
-	            });
-	    //this.setState is asynchronous
+	      var config2 = {
+	        headers: { 'content-type': 'application/json' //it has to be multipart form data
+	        } };
+	      var url1 = 'http://localhost:8080/lostdata/';
+	      var data2 = this.state;
+
+	      axios.post(url1, data2, config2).then(function (response) {
+	        console.log(response);
+	      }).catch(function (error) {
+	        console.log(error);
+	      });
 	    });
-	      */
 	  },
 
 	  clearFunction: function clearFunction() {
@@ -51938,8 +51929,7 @@
 	              )
 	            )
 	          )
-	        ),
-	        _react2.default.createElement('div', { id: 'loading-spinner' })
+	        )
 	      )
 	    );
 	  }
@@ -72133,6 +72123,237 @@
 /* 901 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+	// resolves . and .. elements in a path array with directory names there
+	// must be no slashes, empty elements, or device names (c:\) in the array
+	// (so also no leading and trailing slashes - it does not distinguish
+	// relative and absolute paths)
+	function normalizeArray(parts, allowAboveRoot) {
+	  // if the path tries to go above the root, `up` ends up > 0
+	  var up = 0;
+	  for (var i = parts.length - 1; i >= 0; i--) {
+	    var last = parts[i];
+	    if (last === '.') {
+	      parts.splice(i, 1);
+	    } else if (last === '..') {
+	      parts.splice(i, 1);
+	      up++;
+	    } else if (up) {
+	      parts.splice(i, 1);
+	      up--;
+	    }
+	  }
+
+	  // if the path is allowed to go above the root, restore leading ..s
+	  if (allowAboveRoot) {
+	    for (; up--; up) {
+	      parts.unshift('..');
+	    }
+	  }
+
+	  return parts;
+	}
+
+	// Split a filename into [root, dir, basename, ext], unix version
+	// 'root' is just a slash, or nothing.
+	var splitPathRe =
+	    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+	var splitPath = function(filename) {
+	  return splitPathRe.exec(filename).slice(1);
+	};
+
+	// path.resolve([from ...], to)
+	// posix version
+	exports.resolve = function() {
+	  var resolvedPath = '',
+	      resolvedAbsolute = false;
+
+	  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+	    var path = (i >= 0) ? arguments[i] : process.cwd();
+
+	    // Skip empty and invalid entries
+	    if (typeof path !== 'string') {
+	      throw new TypeError('Arguments to path.resolve must be strings');
+	    } else if (!path) {
+	      continue;
+	    }
+
+	    resolvedPath = path + '/' + resolvedPath;
+	    resolvedAbsolute = path.charAt(0) === '/';
+	  }
+
+	  // At this point the path should be resolved to a full absolute path, but
+	  // handle relative paths to be safe (might happen when process.cwd() fails)
+
+	  // Normalize the path
+	  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
+	    return !!p;
+	  }), !resolvedAbsolute).join('/');
+
+	  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+	};
+
+	// path.normalize(path)
+	// posix version
+	exports.normalize = function(path) {
+	  var isAbsolute = exports.isAbsolute(path),
+	      trailingSlash = substr(path, -1) === '/';
+
+	  // Normalize the path
+	  path = normalizeArray(filter(path.split('/'), function(p) {
+	    return !!p;
+	  }), !isAbsolute).join('/');
+
+	  if (!path && !isAbsolute) {
+	    path = '.';
+	  }
+	  if (path && trailingSlash) {
+	    path += '/';
+	  }
+
+	  return (isAbsolute ? '/' : '') + path;
+	};
+
+	// posix version
+	exports.isAbsolute = function(path) {
+	  return path.charAt(0) === '/';
+	};
+
+	// posix version
+	exports.join = function() {
+	  var paths = Array.prototype.slice.call(arguments, 0);
+	  return exports.normalize(filter(paths, function(p, index) {
+	    if (typeof p !== 'string') {
+	      throw new TypeError('Arguments to path.join must be strings');
+	    }
+	    return p;
+	  }).join('/'));
+	};
+
+
+	// path.relative(from, to)
+	// posix version
+	exports.relative = function(from, to) {
+	  from = exports.resolve(from).substr(1);
+	  to = exports.resolve(to).substr(1);
+
+	  function trim(arr) {
+	    var start = 0;
+	    for (; start < arr.length; start++) {
+	      if (arr[start] !== '') break;
+	    }
+
+	    var end = arr.length - 1;
+	    for (; end >= 0; end--) {
+	      if (arr[end] !== '') break;
+	    }
+
+	    if (start > end) return [];
+	    return arr.slice(start, end - start + 1);
+	  }
+
+	  var fromParts = trim(from.split('/'));
+	  var toParts = trim(to.split('/'));
+
+	  var length = Math.min(fromParts.length, toParts.length);
+	  var samePartsLength = length;
+	  for (var i = 0; i < length; i++) {
+	    if (fromParts[i] !== toParts[i]) {
+	      samePartsLength = i;
+	      break;
+	    }
+	  }
+
+	  var outputParts = [];
+	  for (var i = samePartsLength; i < fromParts.length; i++) {
+	    outputParts.push('..');
+	  }
+
+	  outputParts = outputParts.concat(toParts.slice(samePartsLength));
+
+	  return outputParts.join('/');
+	};
+
+	exports.sep = '/';
+	exports.delimiter = ':';
+
+	exports.dirname = function(path) {
+	  var result = splitPath(path),
+	      root = result[0],
+	      dir = result[1];
+
+	  if (!root && !dir) {
+	    // No dirname whatsoever
+	    return '.';
+	  }
+
+	  if (dir) {
+	    // It has a dirname, strip trailing slash
+	    dir = dir.substr(0, dir.length - 1);
+	  }
+
+	  return root + dir;
+	};
+
+
+	exports.basename = function(path, ext) {
+	  var f = splitPath(path)[2];
+	  // TODO: make this comparison case-insensitive on windows?
+	  if (ext && f.substr(-1 * ext.length) === ext) {
+	    f = f.substr(0, f.length - ext.length);
+	  }
+	  return f;
+	};
+
+
+	exports.extname = function(path) {
+	  return splitPath(path)[3];
+	};
+
+	function filter (xs, f) {
+	    if (xs.filter) return xs.filter(f);
+	    var res = [];
+	    for (var i = 0; i < xs.length; i++) {
+	        if (f(xs[i], i, xs)) res.push(xs[i]);
+	    }
+	    return res;
+	}
+
+	// String.prototype.substr - negative index don't work in IE8
+	var substr = 'ab'.substr(-1) === 'b'
+	    ? function (str, start, len) { return str.substr(start, len) }
+	    : function (str, start, len) {
+	        if (start < 0) start = str.length + start;
+	        return str.substr(start, len);
+	    }
+	;
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ }),
+/* 902 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	"use strict";
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -72199,25 +72420,37 @@
 	        _this.state = {
 	            isOpen: false,
 	            itemInfo: {},
-	            items: [{ id: 1, name: "Camera", found_location: "Library", picture: "1499026213915_watch.jpg", finder_name: "Rafael Nadal", finder_phone: "515-433-2223", finder_email: "syedadilimam93@gmail.com" }],
+	            items: [],
 	            itemsPro: []
 	        };
 	        return _this;
 	    }
-	    /*
-	    componentDidMount(){
-	          axios.get("http://localhost:8080/retrievelost").then((result)=>{
-	            this.setState({  isOpen: false,
-	                  itemInfo: {},
-	                  items: result.data});
-	          }).catch(function(error){
-	             console.log(error);
-	          });
-	    }
-	    */
-
 
 	    _createClass(FoundProductsTable, [{
+	        key: "componentDidMount",
+	        value: function componentDidMount() {
+	            var _this2 = this;
+
+	            _axios2.default.get("http://localhost:8080/retrievefound").then(function (result) {
+	                console.log(result.data);
+
+	                _this2.setState({ isOpen: false,
+	                    itemInfo: {},
+	                    items: result.data });
+	            }).catch(function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: "imageFormatter",
+	        value: function imageFormatter(cell, row) {
+	            return _react2.default.createElement(
+	                _LostItem2.default,
+	                row,
+	                " "
+	            );
+	        }
+	    }, {
 	        key: "priceFormatter",
 	        value: function priceFormatter(cell, row) {
 	            return "<div> $" + cell + " </div>";
@@ -72270,17 +72503,17 @@
 	                        { data: this.state.items, search: true, options: { clearSearch: true }, striped: true, hover: true, pagination: true },
 	                        _react2.default.createElement(
 	                            _reactBootstrapTable.TableHeaderColumn,
-	                            { dataField: "image", dataFormat: this.imageFormatter.bind(this), dataAlign: "center", isKey: true },
+	                            { dataField: "picture", dataFormat: this.imageFormatter.bind(this), dataAlign: "center", isKey: true },
 	                            "   Item Picture "
 	                        ),
 	                        _react2.default.createElement(
 	                            _reactBootstrapTable.TableHeaderColumn,
-	                            { dataField: "name", dataAlign: "center", dataSort: true },
+	                            { dataField: "id", dataAlign: "center", dataSort: true },
 	                            " Item Name "
 	                        ),
 	                        _react2.default.createElement(
 	                            _reactBootstrapTable.TableHeaderColumn,
-	                            { dataField: "found_location", dataAlign: "center" },
+	                            { dataField: "lost_location", dataAlign: "center" },
 	                            " Lost Location "
 	                        ),
 	                        _react2.default.createElement(

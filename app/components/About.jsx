@@ -1,13 +1,16 @@
 var Footer=require('Footer');
 var Nav=require('Nav');
 var axios=require('axios');
+var path = require('path');
+
 import LoadingComponent from 'LoadingComponent';
 import React, { Component } from 'react';
 import ImagesUploader from 'react-images-uploader';
 
 
 var About = React.createClass({
-getInitialState: function(){  
+
+getInitialState: function(){
     return{
         itemName:'',
         itemDesc:'',
@@ -17,16 +20,10 @@ getInitialState: function(){
     }    
 },    
 handleForm: function(e) {
-    LoadingComponent();
     e.preventDefault();
-    console.log(this.state.image);
-
     axios.post("http://localhost:9090/uploadToS3", {image: this.state.image}).then(function (data) {
         console.log(data);
     });
-
-    /*
-
     //I ll make a request here to upload images!!
     var name = this.refs.itemName.value;
     var desc = this.refs.itemDesc.value;
@@ -37,23 +34,16 @@ handleForm: function(e) {
     var itemPicture = this.state.images;  //this is an image file
 
     this.clearFunction();
-
-    console.log(name);
-    console.log(desc);
-    console.log(lostLocation);
-    console.log(itemPrice);
-    console.log(itemPicture);
-
-//this inside of this doesnt know what it is    
+//this inside of this doesnt know what it is
     this.setState({
         itemName: name,
         itemDesc: desc,
         itemPrice: itemPrice,
         lostLocation: lostLocation,
         ownerName: ownerName,
-        ownerPhone: ownerPhone
-    }, function () {
-
+        ownerPhone: ownerPhone,
+        image: path.basename(this.state.image)
+    }, function(){
         const config2 = {
             headers: {'content-type': 'application/json'}   //it has to be multipart form data
         }
@@ -63,17 +53,11 @@ handleForm: function(e) {
         axios.post(url1, data2, config2)
             .then(function (response) {
                 console.log(response);
-
             })
-            .catch(function (error) {
+            .catch(function (error){
                 console.log(error);
-                LoadingComponent();
             });
-
-//this.setState is asynchronous
     });
-
-    */
 },
 
 clearFunction:function(){
@@ -171,7 +155,6 @@ render: function(){
             </form>
           </div>
         </div>
-          <div id="loading-spinner"></div>
       </div>
     </div>
     )
