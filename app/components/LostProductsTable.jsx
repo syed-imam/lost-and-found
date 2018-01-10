@@ -25,7 +25,7 @@ class LostProductsTable extends React.Component {
 
 
     componentDidMount(){
-          axios.get("http://localhost:8080/retrievelost").then((result)=>{
+          axios.get("http://default-environment.3dqrftpbm9.us-east-1.elasticbeanstalk.com/retrievelost").then((result)=>{
             this.setState({  isOpen: false,
                   itemInfo: {},
                   items: result.data});
@@ -93,7 +93,7 @@ class LostProductsTable extends React.Component {
             const config = {
                 headers: {'content-type': 'application/json'}   //it has to be multipart form data
             }
-            axios.post("http://localhost:8080/founddata", payload, config).then(function(data){
+            axios.post("http://default-environment.3dqrftpbm9.us-east-1.elasticbeanstalk.com/founddata", payload, config).then(function(data){
                     console.log(data);
             }).catch(function(error){
             });

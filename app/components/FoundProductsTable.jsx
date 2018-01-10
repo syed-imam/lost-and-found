@@ -28,7 +28,7 @@ class FoundProductsTable extends React.Component {
     }
 
     componentDidMount(){
-          axios.get("http://localhost:8080/retrievefound").then((result)=>{
+          axios.get("http://default-environment.3dqrftpbm9.us-east-1.elasticbeanstalk.com/retrievefound").then((result)=>{
             console.log(result.data);
 
             this.setState({  isOpen: false,
