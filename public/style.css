@@ -8,6 +8,10 @@
 margin-top: -10%;
 }
 
+.navbar-nav a{
+    margin-top:3%;
+}
+
 @media screen and (min-width: 1380px){
     .custom-nav{
         height:6%;
