@@ -60,11 +60,11 @@
 	var FoundProductsTable = __webpack_require__(902);
 
 	ReactDOM.render(React.createElement(
-	   Router,
-	   { history: hashHistory },
-	   React.createElement(Route, { path: '/', component: Main }),
-	   React.createElement(Route, { path: 'lost', component: About }),
-	   React.createElement(Route, { path: 'found', component: FoundProductsTable })
+	  Router,
+	  { history: hashHistory },
+	  React.createElement(Route, { path: '/', component: Main }),
+	  React.createElement(Route, { path: 'lost', component: About }),
+	  React.createElement(Route, { path: 'found', component: FoundProductsTable })
 	), document.getElementById('app'));
 
 /***/ }),
@@ -72508,27 +72508,27 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            _reactBootstrapTable.TableHeaderColumn,
-	                            { dataField: "id", dataAlign: "center", dataSort: true },
+	                            { dataField: "name", dataAlign: "center", dataSort: true },
 	                            " Item Name "
 	                        ),
 	                        _react2.default.createElement(
 	                            _reactBootstrapTable.TableHeaderColumn,
-	                            { dataField: "lost_location", dataAlign: "center" },
+	                            { dataField: "lostLocation", dataAlign: "center" },
 	                            " Lost Location "
 	                        ),
 	                        _react2.default.createElement(
 	                            _reactBootstrapTable.TableHeaderColumn,
-	                            { dataField: "finder_name", dataAlign: "center" },
+	                            { dataField: "finderName", dataAlign: "center" },
 	                            " Finder Name "
 	                        ),
 	                        _react2.default.createElement(
 	                            _reactBootstrapTable.TableHeaderColumn,
-	                            { dataField: "finder_phone", dataAlign: "center" },
+	                            { dataField: "finderPhone", dataAlign: "center" },
 	                            " Finder Phone "
 	                        ),
 	                        _react2.default.createElement(
 	                            _reactBootstrapTable.TableHeaderColumn,
-	                            { dataField: "finder_email", dataAlign: "center" },
+	                            { dataField: "finderEmail", dataAlign: "center" },
 	                            " Finder Email "
 	                        )
 	                    )

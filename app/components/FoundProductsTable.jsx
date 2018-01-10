@@ -84,11 +84,11 @@ class FoundProductsTable extends React.Component {
                 <div className="container report-section">
                 <BootstrapTable data={this.state.items} search={ true } options={{clearSearch: true}} striped={true} hover={true} pagination={true}>
                     <TableHeaderColumn dataField="picture" dataFormat={this.imageFormatter.bind(this)}  dataAlign="center"  isKey={true}>   Item Picture </TableHeaderColumn>
-                    <TableHeaderColumn dataField="id" dataAlign="center" dataSort={true}> Item Name </TableHeaderColumn>
-                    <TableHeaderColumn dataField="lost_location" dataAlign="center"> Lost Location </TableHeaderColumn>
-                    <TableHeaderColumn dataField="finder_name" dataAlign="center"> Finder Name </TableHeaderColumn>
-                    <TableHeaderColumn dataField="finder_phone" dataAlign="center"> Finder Phone </TableHeaderColumn>
-                    <TableHeaderColumn dataField="finder_email" dataAlign="center"> Finder Email </TableHeaderColumn>
+                    <TableHeaderColumn dataField="name" dataAlign="center" dataSort={true}> Item Name </TableHeaderColumn>
+                    <TableHeaderColumn dataField="lostLocation" dataAlign="center"> Lost Location </TableHeaderColumn>
+                    <TableHeaderColumn dataField="finderName" dataAlign="center"> Finder Name </TableHeaderColumn>
+                    <TableHeaderColumn dataField="finderPhone" dataAlign="center"> Finder Phone </TableHeaderColumn>
+                    <TableHeaderColumn dataField="finderEmail" dataAlign="center"> Finder Email </TableHeaderColumn>
                 </BootstrapTable>
                </div>
             </div>
