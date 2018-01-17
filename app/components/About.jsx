@@ -21,7 +21,7 @@ getInitialState: function(){
 },    
 handleForm: function(e) {
     e.preventDefault();
-    axios.post("http://localhost:9090/uploadToS3", {image: this.state.image}).then(function (data) {
+    axios.post("http://54.91.15.90:9090/uploadToS3", {image: this.state.image}).then(function (data) {
         console.log(data);
     });
     //I ll make a request here to upload images!!
@@ -47,7 +47,7 @@ handleForm: function(e) {
         const config2 = {
             headers: {'content-type': 'application/json'}   //it has to be multipart form data
         }
-        const url1 = 'http://localhost:8080/lostdata/';
+        const url1 = 'http://default-environment.3dqrftpbm9.us-east-1.elasticbeanstalk.com:8080/lostdata/';
         var data2 = this.state;
 
         axios.post(url1, data2, config2)
@@ -132,7 +132,7 @@ render: function(){
                  <div className="form-group">
                   <label htmlFor="inputEmail" className="col-lg-2 control-label">Item Picture</label>
                   <div className="col-lg-10">
-                   <ImagesUploader url="http://127.0.0.1:9090/upload"
+                   <ImagesUploader url="http://54.91.15.90:9090/upload"
                           optimisticPreviews={true}
                           multiple={false}
                           onLoadEnd={(err , string) => {
