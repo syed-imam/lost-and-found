@@ -132,7 +132,7 @@ render: function(){
                  <div className="form-group">
                   <label htmlFor="inputEmail" className="col-lg-2 control-label">Item Picture</label>
                   <div className="col-lg-10">
-                   <ImagesUploader url="http://localhost:9090/upload"
+                   <ImagesUploader url="http://127.0.0.1:9090/upload"
                           optimisticPreviews={true}
                           multiple={false}
                           onLoadEnd={(err , string) => {
