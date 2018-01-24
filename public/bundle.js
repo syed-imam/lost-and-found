@@ -57,7 +57,7 @@
 
 	var Main = __webpack_require__(222);
 	var About = __webpack_require__(497);
-	var FoundProductsTable = __webpack_require__(902);
+	var FoundProductsTable = __webpack_require__(903);
 
 	ReactDOM.render(React.createElement(
 	  Router,
@@ -35671,7 +35671,7 @@
 	        value: function componentDidMount() {
 	            var _this2 = this;
 
-	            _axios2.default.get("http://localhost:8080/retrievelost").then(function (result) {
+	            _axios2.default.get("http://default-environment.3dqrftpbm9.us-east-1.elasticbeanstalk.com/retrievelost").then(function (result) {
 	                _this2.setState({ isOpen: false,
 	                    itemInfo: {},
 	                    items: result.data });
@@ -35748,7 +35748,7 @@
 	                };var config = {
 	                    headers: { 'content-type': 'application/json' //it has to be multipart form data
 	                    } };
-	                _axios2.default.post("http://localhost:8080/founddata", payload, config).then(function (data) {
+	                _axios2.default.post("http://default-environment.3dqrftpbm9.us-east-1.elasticbeanstalk.com/founddata", payload, config).then(function (data) {
 	                    console.log(data);
 	                }).catch(function (error) {});
 	                //Remove the element from the array and set state again
@@ -51676,12 +51676,16 @@
 
 	var _reactImagesUploader2 = _interopRequireDefault(_reactImagesUploader);
 
+	var _SubmitConfirmModal = __webpack_require__(901);
+
+	var _SubmitConfirmModal2 = _interopRequireDefault(_SubmitConfirmModal);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Footer = __webpack_require__(401);
 	var Nav = __webpack_require__(496);
 	var axios = __webpack_require__(469);
-	var path = __webpack_require__(901);
+	var path = __webpack_require__(902);
 
 	var About = _react2.default.createClass({
 	  displayName: 'About',
@@ -51693,12 +51697,13 @@
 	      itemDesc: '',
 	      lostLocation: '',
 	      itemPrice: '',
-	      image: ''
+	      image: '',
+	      submitConfirmShow: false
 	    };
 	  },
 	  handleForm: function handleForm(e) {
 	    e.preventDefault();
-	    axios.post("http://localhost:9090/uploadToS3", { image: this.state.image }).then(function (data) {
+	    axios.post("http://54.91.15.90:9090/uploadToS3", { image: this.state.image }).then(function (data) {
 	      console.log(data);
 	    });
 	    //I ll make a request here to upload images!!
@@ -51709,7 +51714,7 @@
 	    var ownerName = this.refs.ownerName.value;
 	    var ownerPhone = this.refs.ownerPhone.value;
 	    var itemPicture = this.state.images; //this is an image file
-
+	    var self = this;
 	    this.clearFunction();
 	    //this inside of this doesnt know what it is
 	    this.setState({
@@ -51719,7 +51724,8 @@
 	      lostLocation: lostLocation,
 	      ownerName: ownerName,
 	      ownerPhone: ownerPhone,
-	      image: path.basename(this.state.image)
+	      image: path.basename(this.state.image),
+	      submitConfirmShow: false
 	    }, function () {
 	      var config2 = {
 	        headers: { 'content-type': 'application/json' //it has to be multipart form data
@@ -51729,10 +51735,16 @@
 
 	      axios.post(url1, data2, config2).then(function (response) {
 	        console.log(response);
+	        console.log(this);
+	        self.setState({ submitConfirmShow: true });
 	      }).catch(function (error) {
 	        console.log(error);
 	      });
 	    });
+	  },
+
+	  closeSubmitModal: function closeSubmitModal() {
+	    this.setState({ submitConfirmShow: false });
 	  },
 
 	  clearFunction: function clearFunction() {
@@ -51896,7 +51908,7 @@
 	                  _react2.default.createElement(
 	                    'div',
 	                    { className: 'col-lg-10' },
-	                    _react2.default.createElement(_reactImagesUploader2.default, { url: 'http://localhost:9090/upload',
+	                    _react2.default.createElement(_reactImagesUploader2.default, { url: 'http://54.91.15.90:9090/upload',
 	                      optimisticPreviews: true,
 	                      multiple: false,
 	                      onLoadEnd: function onLoadEnd(err, string) {
@@ -51930,7 +51942,8 @@
 	            )
 	          )
 	        )
-	      )
+	      ),
+	      _react2.default.createElement(_SubmitConfirmModal2.default, { show: this.state.submitConfirmShow, hide: this.closeSubmitModal })
 	    );
 	  }
 	});
@@ -72123,6 +72136,76 @@
 /* 901 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var Modal = __webpack_require__(242);
+	var Button = __webpack_require__(382);
+	var Popover = __webpack_require__(387);
+	var OverlayTrigger = __webpack_require__(389);
+	var Tooltip = __webpack_require__(400);
+
+	var SubmitConfirm = React.createClass({
+	    displayName: 'SubmitConfirm',
+
+
+	    something: function something() {
+	        console.log("Im here again");
+	    },
+
+	    render: function render() {
+	        var popover = React.createElement(Popover, { id: 'modal-popover', title: 'popover' });
+	        var tooltip = React.createElement(Tooltip, { id: 'modal-tooltip' });
+
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                Modal,
+	                { bsSize: 'large', 'aria-labelledby': 'contained-modal-title-lg', show: this.props.show, onHide: this.props.hide },
+	                React.createElement(
+	                    Modal.Header,
+	                    { closeButton: true },
+	                    React.createElement(
+	                        Modal.Title,
+	                        null,
+	                        'Confirmation'
+	                    )
+	                ),
+	                React.createElement(
+	                    Modal.Body,
+	                    null,
+	                    React.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        React.createElement(
+	                            'h3',
+	                            null,
+	                            'Loss Item successfully reported'
+	                        )
+	                    ),
+	                    React.createElement('hr', null)
+	                ),
+	                React.createElement(
+	                    Modal.Footer,
+	                    null,
+	                    React.createElement(
+	                        'button',
+	                        { onClick: this.props.hide, className: 'btn-primary' },
+	                        'Close'
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+	module.exports = SubmitConfirm;
+
+/***/ }),
+/* 902 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
 	//
 	// Permission is hereby granted, free of charge, to any person obtaining a
@@ -72351,7 +72434,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 902 */
+/* 903 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -72431,7 +72514,7 @@
 	        value: function componentDidMount() {
 	            var _this2 = this;
 
-	            _axios2.default.get("http://localhost:8080/retrievefound").then(function (result) {
+	            _axios2.default.get("http://default-environment.3dqrftpbm9.us-east-1.elasticbeanstalk.com/retrievefound").then(function (result) {
 	                console.log(result.data);
 
 	                _this2.setState({ isOpen: false,

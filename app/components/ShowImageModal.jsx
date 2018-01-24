@@ -44,7 +44,6 @@ var {isOpen, image, name, price, desc, location, owner_name, owner_phone}= this.
           <div className="form-group">                
             
             <div className="row">
-            
                                    
                 <h3><label className="form-label">Description</label></h3>           
                  {desc}

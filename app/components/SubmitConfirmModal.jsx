@@ -5,31 +5,37 @@ var Popover= require('react-bootstrap/lib/Popover');
 var OverlayTrigger= require('react-bootstrap/lib/OverlayTrigger');
 var Tooltip= require('react-bootstrap/lib/Tooltip');
 
-var FoundModal= React.createClass({
+var SubmitConfirm = React.createClass({
+
+    something: function(){
+        console.log("Im here again");
+    },
+
     render: function(){
         const popover = (
             <Popover id="modal-popover" title="popover">
+
             </Popover>
         );
         const tooltip = (
             <Tooltip id="modal-tooltip">
             </Tooltip>
         );
+
         return(
             <div>
-                <Modal bsSize="large" aria-labelledby="contained-modal-title-lg">
+                <Modal bsSize="large" aria-labelledby="contained-modal-title-lg" show={this.props.show} onHide={this.props.hide}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Found Apple</Modal.Title>
+                        <Modal.Title>Confirmation</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
-
-                        <h4>Claim this item?</h4>
-                        <p><OverlayTrigger overlay={tooltip}><a href="#">tooltip</a></OverlayTrigger></p>
+                      <Modal.Body>
+                        <div className="row">
+                            <h3>Loss Item successfully reported</h3>
+                        </div>
                         <hr/>
-
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.props.close}>Close</Button>
+                        <button onClick={this.props.hide} className="btn-primary">Close</button>
                     </Modal.Footer>
                 </Modal>
             </div>
@@ -37,5 +43,4 @@ var FoundModal= React.createClass({
     }
 });
 
-
-module.exports = FoundModal;
+module.exports = SubmitConfirm;

@@ -20,7 +20,8 @@ module.exports = {
       LostProductsTable: 'app/components/LostProductsTable.jsx',
       CheckBox:'app/components/CheckBox.jsx',
       FoundModal: 'app/components/FoundModal.jsx',
-      FoundProductsTable: 'app/components/FoundProductsTable.jsx'
+      FoundProductsTable: 'app/components/FoundProductsTable.jsx',
+      SubmitConfirmModal: 'app/components/SubmitConfirmModal.jsx'
     },
     extensions: ['', '.js', '.jsx']
   },
