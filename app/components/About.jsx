@@ -101,7 +101,7 @@ render: function(){
                     <span className="help-block"></span>
                   </div>
                 </div>
-               
+
                 <div className="form-group">
                   <label htmlFor="select" className="col-lg-2 control-label">Loss Location</label>
                   <div className="col-lg-10">

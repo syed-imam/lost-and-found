@@ -51730,7 +51730,7 @@
 	      var config2 = {
 	        headers: { 'content-type': 'application/json' //it has to be multipart form data
 	        } };
-	      var url1 = 'http://localhost:8080/lostdata/';
+	      var url1 = 'http://default-environment.3dqrftpbm9.us-east-1.elasticbeanstalk.com/lostdata/';
 	      var data2 = this.state;
 
 	      axios.post(url1, data2, config2).then(function (response) {
